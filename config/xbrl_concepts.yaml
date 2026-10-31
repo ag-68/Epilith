@@ -1,0 +1,151 @@
+# Candidate US-GAAP / DEI concepts tried in order. First concept that yields
+# usable observations at the latest reported dates wins. Keep this generic;
+# do not add ticker-specific branches.
+allowed_forms:
+  - "10-K"
+  - "10-Q"
+  - "20-F"
+  - "40-F"
+
+metrics:
+  revenue:
+    kind: flow
+    unit: money
+    candidates:
+      - { taxonomy: us-gaap, concept: Revenues }
+      - { taxonomy: us-gaap, concept: RevenueFromContractWithCustomerExcludingAssessedTax }
+      - { taxonomy: us-gaap, concept: SalesRevenueNet }
+      - { taxonomy: ifrs-full, concept: Revenue }
+      - { taxonomy: ifrs-full, concept: RevenueFromContractsWithCustomers }
+    definition: >
+      Total revenue for the period, as reported. Prefer the primary income-statement
+      revenue concept over a contract-with-customer breakdown.
+
+  operating_income:
+    kind: flow
+    unit: money
+    candidates:
+      - { taxonomy: us-gaap, concept: OperatingIncomeLoss }
+      - { taxonomy: ifrs-full, concept: ProfitLossFromOperatingActivities }
+    definition: >
+      Operating income (loss) as reported on the income statement.
+
+  net_income:
+    kind: flow
+    unit: money
+    candidates:
+      - { taxonomy: us-gaap, concept: NetIncomeLoss }
+      - { taxonomy: us-gaap, concept: ProfitLoss }
+      - { taxonomy: us-gaap, concept: NetIncomeLossAvailableToCommonStockholdersBasic }
+      - { taxonomy: ifrs-full, concept: ProfitLossAttributableToOwnersOfParent }
+      - { taxonomy: ifrs-full, concept: ProfitLoss }
+    definition: >
+      Net income attributable to shareholders of the parent, not including
+      noncontrolling interest.
+
+  operating_cash_flow:
+    kind: flow
+    unit: money
+    candidates:
+      - { taxonomy: us-gaap, concept: NetCashProvidedByUsedInOperatingActivities }
+      - { taxonomy: ifrs-full, concept: CashFlowsFromUsedInOperatingActivities }
+      - { taxonomy: ifrs-full, concept: CashFlowsFromUsedInOperations }
+    definition: >
+      Net cash provided by (used in) operating activities from the cash-flow
+      statement. 10-Q values are often year-to-date; standalone quarters are
+      derived by differencing YTD figures when needed.
+
+  capex:
+    kind: flow
+    unit: money
+    candidates:
+      - { taxonomy: us-gaap, concept: PaymentsToAcquirePropertyPlantAndEquipment }
+      - { taxonomy: us-gaap, concept: PaymentsToAcquireProductiveAssets }
+      - { taxonomy: ifrs-full, concept: PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities }
+    definition: >
+      Cash paid to acquire property, plant and equipment / productive assets.
+      Does not include business acquisitions, marketable-security purchases,
+      or capitalized software unless that is the only available PPE tag.
+      10-Q values are often year-to-date.
+
+  cash:
+    kind: instant
+    unit: money
+    candidates:
+      - { taxonomy: us-gaap, concept: CashAndCashEquivalentsAtCarryingValue }
+      - { taxonomy: ifrs-full, concept: CashAndCashEquivalents }
+      - { taxonomy: ifrs-full, concept: Cash }
+    definition: >
+      Cash and cash equivalents only. Short-term investments / marketable
+      securities are stored as a separate fact when available.
+
+  short_term_investments:
+    kind: instant
+    unit: money
+    optional: true
+    candidates:
+      - { taxonomy: us-gaap, concept: MarketableSecuritiesCurrent }
+      - { taxonomy: us-gaap, concept: DebtSecuritiesCurrent }
+      - { taxonomy: us-gaap, concept: AvailableForSaleSecuritiesCurrent }
+      - { taxonomy: us-gaap, concept: ShortTermInvestments }
+    definition: >
+      Current marketable securities / short-term investments, excluding cash
+      and cash equivalents. Not part of the 12 required fields.
+
+  long_term_debt_noncurrent:
+    kind: instant
+    unit: money
+    optional: true
+    candidates:
+      - { taxonomy: us-gaap, concept: LongTermDebtNoncurrent }
+    definition: Long-term debt, noncurrent portion, excluding operating leases.
+
+  long_term_debt_current:
+    kind: instant
+    unit: money
+    optional: true
+    candidates:
+      - { taxonomy: us-gaap, concept: LongTermDebtCurrent }
+      - { taxonomy: us-gaap, concept: DebtCurrent }
+    definition: Current portion of long-term debt / current debt.
+
+  long_term_debt_total:
+    kind: instant
+    unit: money
+    optional: true
+    candidates:
+      - { taxonomy: us-gaap, concept: LongTermDebt }
+      - { taxonomy: us-gaap, concept: LongTermDebtAndCapitalLeaseObligations }
+    definition: >
+      Reported long-term debt total. May already include the current portion;
+      Python will not double-count when combining components.
+
+  operating_lease_liability:
+    kind: instant
+    unit: money
+    optional: true
+    candidates:
+      - { taxonomy: us-gaap, concept: OperatingLeaseLiability }
+    definition: Total operating lease liability. Excluded from total debt by policy.
+
+  shares_outstanding:
+    kind: instant
+    unit: shares
+    candidates:
+      - { taxonomy: us-gaap, concept: CommonStockSharesOutstanding }
+      - { taxonomy: dei, concept: EntityCommonStockSharesOutstanding }
+      - { taxonomy: ifrs-full, concept: NumberOfSharesIssuedAndFullyPaid }
+    definition: >
+      Period-end common shares outstanding (basic, not weighted-average, not
+      diluted). Cover-page DEI shares are a fallback and are dated as-of the
+      cover-page date, which may be after quarter-end.
+
+  shares_outstanding_cover:
+    kind: instant
+    unit: shares
+    optional: true
+    candidates:
+      - { taxonomy: dei, concept: EntityCommonStockSharesOutstanding }
+    definition: >
+      Cover-page shares outstanding (dei:EntityCommonStockSharesOutstanding).
+      As-of date is the cover-page date, not necessarily period-end.

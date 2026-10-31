@@ -1,0 +1,10 @@
+1. Implement Experiment 0a first; follow docs/exp0a.md.
+2. Do not implement agents or LLM calls before 0a passes.
+3. Do not introduce LangGraph, a graph database, or vector/RAG infrastructure.
+4. Do not implement trading or request trading permissions.
+5. Keep provider-specific code isolated behind an interface.
+6. Use Pydantic and type hints.
+7. Store raw artifacts with metadata and content hashes; never overwrite snapshots.
+8. Never let LLM-generated numbers become authoritative facts.
+9. Fix generic data-model problems rather than adding company-specific hacks.
+10. Do not expand scope without a demonstrated failure.

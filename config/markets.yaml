@@ -1,0 +1,62 @@
+# Home markets consulted before any filing download.
+# integrated: a filing adapter exists and is used for stocks from that market.
+# recognized: we know the official source, but no adapter is built.
+# A recognized market is not silently read from the United States filing cabinet.
+markets:
+  - id: US
+    name: United States
+    region: Americas
+    filing_adapter: sec_edgar
+    status: integrated
+    coverage: >
+      United States public filing cabinet. Quarterly and annual reports with
+      labeled numbers. Used only when the stock's home market is the United States.
+
+  - id: EU
+    name: Europe
+    region: Europe
+    filing_adapter: europe_esef
+    status: integrated
+    coverage: >
+      European electronic annual reports via the public filings library
+      (filings.xbrl.org). This is the shared European cabinet. It is mostly
+      a yearly package, not a quarterly vending machine. Company websites
+      remain the usual place for the latest quarter.
+
+  - id: TW
+    name: Taiwan
+    region: Asia
+    filing_adapter: twse_mops
+    status: integrated
+    coverage: >
+      Taiwan Stock Exchange open data and the public disclosure comparison
+      site. Quarterly sales, operating profit, net profit, and cash from the
+      business, in Taiwan dollars. The balance-sheet feed does not break out
+      cash, borrowings, or equipment purchases as their own quarterly series.
+
+  - id: JP
+    name: Japan
+    region: Asia
+    filing_adapter: null
+    status: recognized
+    coverage: >
+      Japan's EDINET filing cabinet exists. No adapter is built, because no
+      Japan-listed company is in Experiment 0a yet.
+
+  - id: KR
+    name: South Korea
+    region: Asia
+    filing_adapter: null
+    status: recognized
+    coverage: >
+      Korea's DART filing cabinet exists. No adapter is built, because no
+      Korea-listed company is in Experiment 0a yet.
+
+  - id: BR
+    name: Brazil
+    region: South America
+    filing_adapter: null
+    status: recognized
+    coverage: >
+      Brazil's CVM publishes company filings as open data. No adapter is built.
+      Other South American markets are not in this registry.

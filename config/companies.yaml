@@ -1,0 +1,52 @@
+companies:
+  - ticker: NVDA
+    name: NVIDIA Corporation
+    cik: "0001045810"
+    region: US
+    accounting: US GAAP
+    reporting_currency: USD
+    listing: NASDAQ:NVDA
+    exchange: NASDAQ
+    market_id: US
+    local_code: NVDA
+    valuation_currency: USD
+    yahoo_symbol: NVDA
+    stooq_symbol: nvda.us
+    ir_release_urls:
+      - https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2027
+    enabled_for_exp0a: true
+
+  - ticker: ASML
+    name: ASML Holding N.V.
+    cik: "0000937966"
+    region: Europe
+    accounting: IFRS
+    reporting_currency: EUR
+    listing: EURONEXT:ASML
+    exchange: Euronext Amsterdam
+    market_id: EU
+    local_code: ASML
+    valuation_currency: EUR
+    yahoo_symbol: ASML.AS
+    google_symbol: ASML:AMS
+    stooq_symbol: asml.nl
+    ir_release_urls:
+      - https://www.asml.com/en/news/press-releases/2026/q2-2026-financial-results
+    enabled_for_exp0a: true
+
+  - ticker: TSMC
+    name: Taiwan Semiconductor Manufacturing Company Limited
+    cik: "0001046179"
+    region: Asia
+    accounting: IFRS
+    reporting_currency: TWD
+    listing: TWSE:2330
+    exchange: Taiwan Stock Exchange
+    market_id: TW
+    local_code: "2330"
+    valuation_currency: TWD
+    yahoo_symbol: 2330.TW
+    stooq_symbol: 2330.tw
+    ir_release_urls:
+      - https://investor.tsmc.com/english/quarterly-results/2026/q2
+    enabled_for_exp0a: true
