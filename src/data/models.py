@@ -40,6 +40,18 @@ class FieldStatus(str, Enum):
     missing = "missing"
 
 
+class Confirmation(str, Enum):
+    """What a second document says about a figure. It never decides validity."""
+
+    confirmed = "confirmed"  # second document states the same figure within tolerance
+    explained = "explained"  # second document differs for a documented reason (period, rules, unit...)
+    disputed = "disputed"  # second document differs and nobody has explained why
+    unconfirmed = "unconfirmed"  # no second document states this line
+
+
+AUTHORITY_ORIGINS = {"sec_edgar", "europe_esef", "twse_mops"}
+
+
 class Company(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -206,6 +218,8 @@ class FieldResult(BaseModel):
     cross_check_value: Decimal | None = None
     difference: Decimal | None = None
     status: FieldStatus
+    confirmation: Confirmation = Confirmation.unconfirmed
+    provenance: str | None = None  # "authority" (regulator filing), "company" (own release), "market", or the origin name
     notes: list[str] = Field(default_factory=list)
 
 
@@ -214,6 +228,7 @@ class CompanyValidation(BaseModel):
 
     ticker: str
     valid_count: int
+    confirmed_count: int = 0
     required_count: int = 12
     fields: list[FieldResult]
     discrepancies: list[CrossCheck] = Field(default_factory=list)

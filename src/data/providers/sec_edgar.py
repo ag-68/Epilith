@@ -4,17 +4,38 @@ import json
 import os
 import re
 import time
+from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
 from typing import Any
 
 import httpx
 
+from data.filing_text import exhibit_documents, filing_html_to_text
 from data.http import client as http_client
 from data.models import Company, Source
 from data.snapshots import SnapshotStore
 
 SEC_BASE = "https://data.sec.gov"
 SEC_WWW = "https://www.sec.gov"
+NO_REPLY = re.compile(r"no-?reply", re.IGNORECASE)
+
+
+@dataclass(frozen=True)
+class FilingDocument:
+    """One filed document, stored raw, with its text rendering."""
+
+    form: str
+    filing_date: date
+    report_date: date | None
+    accession: str
+    document: str
+    source: Source
+    text: str
+
+    @property
+    def url(self) -> str | None:
+        return self.source.url
 
 
 class SecEdgarProvider:
@@ -26,6 +47,12 @@ class SecEdgarProvider:
             raise RuntimeError(
                 "SEC_USER_AGENT must be set in the environment and include a contact email. "
                 "See .env.example."
+            )
+        if NO_REPLY.search(self.user_agent):
+            # SEC answers "Undeclared Automated Tool" to a no-reply contact, on any machine.
+            raise RuntimeError(
+                "SEC_USER_AGENT must give a mailbox SEC can write to. A no-reply address "
+                f"({NO_REPLY.search(self.user_agent).group(0)}) is treated as undeclared and blocked."
             )
         self.timeout = timeout
 
@@ -78,7 +105,16 @@ class SecEdgarProvider:
 
     def fetch_submissions(self, company: Company, store: SnapshotStore) -> tuple[Source, dict]:
         url = f"{SEC_BASE}/submissions/CIK{company.cik}.json"
-        content = self._get(url)
+        try:
+            content = self._get(url)
+        except httpx.HTTPError as exc:
+            cached = store.latest_raw(self.origin, company.ticker, "submissions.json")
+            if cached and cached.raw_path:
+                cached = cached.model_copy(
+                    update={"metadata": {**cached.metadata, "live_fetch_error": str(exc), "used_cached_raw": True}}
+                )
+                return cached, json.loads(Path(cached.raw_path).read_bytes().decode("utf-8"))
+            raise
         source = store.save_raw(
             origin=self.origin,
             ticker=company.ticker,
@@ -101,6 +137,89 @@ class SecEdgarProvider:
             name=name,
             metadata={"kind": "filing_document"},
         )
+
+    def fetch_filing_file(
+        self,
+        company: Company,
+        store: SnapshotStore,
+        accession: str,
+        name: str,
+        label: str,
+    ) -> Source:
+        """One file from a filing folder. A filing never changes, so a stored copy is reused."""
+        filename = f"{accession}_{name}"
+        cached = store.latest_raw(self.origin, company.ticker, filename)
+        if cached and cached.raw_path and Path(cached.raw_path).exists():
+            return cached
+        accn_nodash = accession.replace("-", "")
+        url = f"{SEC_WWW}/Archives/edgar/data/{int(company.cik)}/{accn_nodash}/{name}"
+        content = self._get(url)
+        return store.save_raw(
+            origin=self.origin,
+            ticker=company.ticker,
+            filename=filename,
+            content=content,
+            url=url,
+            name=label,
+            metadata={"kind": "filing_document", "accession": accession},
+        )
+
+    def latest_filing_documents(self, company: Company, store: SnapshotStore) -> list[FilingDocument]:
+        """The newest annual report, the quarterly report filed after it, and the newest earnings release.
+
+        Fixed documents chosen by form type and date. No search, no ranking.
+        """
+        _, submissions = self.fetch_submissions(company, store)
+        rows = _filing_rows(submissions)
+        chosen: list[tuple[dict[str, str], str]] = []
+        annual = next((row for row in rows if row["form"] == "10-K"), None)
+        if annual:
+            chosen.append((annual, annual["primaryDocument"]))
+        quarterly = next(
+            (row for row in rows if row["form"] == "10-Q" and (annual is None or row["filingDate"] > annual["filingDate"])),
+            None,
+        )
+        if quarterly:
+            chosen.append((quarterly, quarterly["primaryDocument"]))
+        release = next((row for row in rows if row["form"] == "8-K" and "2.02" in row.get("items", "")), None)
+        if release:
+            exhibit = self._earnings_exhibit_name(company, store, release)
+            if exhibit:
+                chosen.append((release, exhibit))
+
+        documents: list[FilingDocument] = []
+        for row, name in chosen:
+            label = f"{row['form']} {name}" if row["form"] != "8-K" else f"8-K earnings release {name}"
+            try:
+                source = self.fetch_filing_file(company, store, row["accessionNumber"], name, label)
+            except httpx.HTTPError:
+                continue
+            documents.append(
+                FilingDocument(
+                    form=row["form"],
+                    filing_date=date.fromisoformat(row["filingDate"]),
+                    report_date=date.fromisoformat(row["reportDate"]) if row.get("reportDate") else None,
+                    accession=row["accessionNumber"],
+                    document=name,
+                    source=source,
+                    text=filing_html_to_text(_read_text(source.raw_path)),
+                )
+            )
+        return documents
+
+    def _earnings_exhibit_name(self, company: Company, store: SnapshotStore, row: dict[str, str]) -> str | None:
+        """The EX-99.1 document of an 8-K, read from the filing's index page. None if there is none."""
+        accession = row["accessionNumber"]
+        try:
+            index_source = self.fetch_filing_file(company, store, accession, f"{accession}-index.htm", "SEC filing index")
+        except httpx.HTTPError:
+            return None
+        documents = exhibit_documents(_read_text(index_source.raw_path))
+        for wanted in ("EX-99.1", "EX-99"):
+            for name, kind in documents:
+                if kind == wanted and name.lower().endswith((".htm", ".html")):
+                    return name
+        return None
 
     def latest_earnings_exhibits(
         self,
@@ -157,6 +276,17 @@ class SecEdgarProvider:
             if len(exhibits) >= limit:
                 break
         return exhibits
+
+
+def _filing_rows(submissions: dict) -> list[dict[str, str]]:
+    """The 'recent' filing table as one dict per filing, newest first (SEC's own order)."""
+    recent = submissions.get("filings", {}).get("recent", {})
+    columns = ("form", "filingDate", "reportDate", "accessionNumber", "primaryDocument", "items")
+    length = len(recent.get("accessionNumber", []))
+    rows: list[dict[str, str]] = []
+    for index in range(length):
+        rows.append({column: str((recent.get(column) or [""] * length)[index] or "") for column in columns})
+    return rows
 
 
 def _read_text(path: str | None) -> str:

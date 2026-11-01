@@ -1,0 +1,11 @@
+{
+  "origin": "sec_edgar",
+  "ticker": "NVDA",
+  "url": "https://data.sec.gov/submissions/CIK0001045810.json",
+  "retrieved_at": "2026-11-01T22:11:07.112279+00:00",
+  "content_hash": "d0d8527d09b31831022a6367d05bbdd5f2d2b3eda55323fd3383395016b90aaa",
+  "byte_length": 159761,
+  "filename": "submissions.json",
+  "kind": "submissions",
+  "cik": "0001045810"
+}

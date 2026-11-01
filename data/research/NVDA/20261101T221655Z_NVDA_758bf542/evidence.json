@@ -1,0 +1,276 @@
+{
+  "claims": [
+    {
+      "evidence_id": "E1",
+      "claim": "NVIDIA positions itself as a data\u2011center\u2011scale AI infrastructure company serving all industries.",
+      "exact_quote": "NVIDIA is now a data center scale AI infrastructure company reshaping all industries.",
+      "source_id": "nvda-10k-2026-02-25-business",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E2",
+      "claim": "NVIDIA GPUs and networking power more than 78% of the TOP500 supercomputers, including nine of the top ten Green500 systems.",
+      "exact_quote": "Including GPUs and networking, NVIDIA powers over 78% of the supercomputers on the global TOP500 list, including 9 of the top 10 systems on the Green500 list.",
+      "source_id": "nvda-10k-2026-02-25-business",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E3",
+      "claim": "In FY2026 NVIDIA launched NVLink Fusion to let hyperscalers and custom ASIC designers integrate their own CPUs and XPUs with NVIDIA\u2019s platform.",
+      "exact_quote": "In fiscal year 2026, we introduced NVIDIA NVLink Fusion to enable hyperscalers and custom ASIC designers to integrate custom CPUs and XPUs with our platform.",
+      "source_id": "nvda-10k-2026-02-25-business",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E4",
+      "claim": "Since its founding, NVIDIA has spent over $76.7\u202fbillion on R&D, fueling inventions that underpin modern computing.",
+      "exact_quote": "We have invested over $76.7 billion in research and development since our inception, yielding inventions that are essential to modern computing.",
+      "source_id": "nvda-10k-2026-02-25-business",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E5",
+      "claim": "More than half of NVIDIA\u2019s engineering workforce is dedicated to software development.",
+      "exact_quote": "More than half of our engineers work on software.",
+      "source_id": "nvda-10k-2026-02-25-business",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E6",
+      "claim": "Long manufacturing lead times and uncertain supply can cause mismatches between supply and demand.",
+      "exact_quote": "Long manufacturing lead times and uncertain supply and capacity availability, combined with a failure to estimate customer demand accurately, has led and could lead to mismatches between supply and demand.",
+      "source_id": "nvda-10k-2026-02-25-risk-factors",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E7",
+      "claim": "Competitors may limit NVIDIA\u2019s ability to secure foundry capacity and scarce inputs, harming the business.",
+      "exact_quote": "impinge on our ability to procure sufficient foundry capacity and scarce input materials during a supply\u2011constrained environment, which could harm our business.",
+      "source_id": "nvda-10k-2026-02-25-risk-factors",
+      "verified": false,
+      "note": "quote not found verbatim in the named source"
+    },
+    {
+      "evidence_id": "E7",
+      "claim": "Issues around the responsible use of AI could cause reputational or financial liability.",
+      "exact_quote": "Issues relating to the responsible use of our technologies, including AI, may result in reputational or financial harm and liability.",
+      "source_id": "nvda-10k-2026-02-25-risk-factors",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E8",
+      "claim": "Investments in R&D for new markets may not generate revenue for years, risking financial results if not monetized.",
+      "exact_quote": "We have invested in research and development in markets where we have a limited operating history, which may not produce meaningful revenue for several years, if at all.",
+      "source_id": "nvda-10k-2026-02-25-risk-factors",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E9",
+      "claim": "NVIDIA now positions itself as a data\u2011center\u2011scale AI infrastructure company serving all industries.",
+      "exact_quote": "NVIDIA is now a data center scale AI infrastructure company reshaping all industries.",
+      "source_id": "nvda-10k-2026-02-25-mdna",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E10",
+      "claim": "Fiscal\u20112026 revenue growth was driven by data\u2011center compute and networking platforms, with Blackwell GPUs accounting for most data\u2011center sales.",
+      "exact_quote": "Revenue growth in fiscal year 2026 was driven by data center compute and networking platforms for accelerated computing and AI solutions. Our Blackwell architectures represented the majority of our Data Center revenue.",
+      "source_id": "nvda-10k-2026-02-25-mdna",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E11",
+      "claim": "NVIDIA invested $17.5\u202fbillion in private companies and infrastructure funds, mainly early\u2011stage AI startups, exposing it to illiquid, non\u2011marketable assets.",
+      "exact_quote": "We invested $17.5 billion in private companies and infrastructure funds, primarily to support early\u2011stage startups. These investments include AI model makers that purchase our products directly or through CSPs.",
+      "source_id": "nvda-10k-2026-02-25-mdna",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E13",
+      "claim": "FY2026 revenue rose 65% to $215.9\u202fbillion, with data\u2011center sales up 68%; however, gaming supply constraints are expected to weigh on Q1 FY2027.",
+      "exact_quote": "Revenue for fiscal year 2026 was $215.9 billion, up 65% from a year ago. Data Center revenue for fiscal year 2026 was up 68% from a year ago... Gaming revenue for fiscal year 2026 was up 41% from a year ago, driven by strong Blackwell demand. We expect supply constraints to be a headwind to Gaming in the first quarter of fiscal 2027 and beyond.",
+      "source_id": "nvda-10k-2026-02-25-mdna",
+      "verified": false,
+      "note": "quote longer than 220 characters"
+    },
+    {
+      "evidence_id": "E12",
+      "claim": "NVIDIA now positions itself as a data\u2011center\u2011scale AI infrastructure company serving all industries.",
+      "exact_quote": "NVIDIA is now a data center-scale AI infrastructure company reshaping all industries.",
+      "source_id": "nvda-10q-2026-08-26-mdna",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E13",
+      "claim": "Q2 and H1 FY2027 revenue growth was powered by data\u2011center products for accelerated computing and AI solutions.",
+      "exact_quote": "Revenue growth in the second quarter and the first half of fiscal year 2027 was driven by data center products for accelerated computing and AI solutions.",
+      "source_id": "nvda-10q-2026-08-26-mdna",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E14",
+      "claim": "NVIDIA\u2019s next\u2011generation data\u2011center architecture, Vera Rubin, started production shipments in Q3 FY2027 but faces supply constraints.",
+      "exact_quote": "Our next-generation Data Center architecture, Vera Rubin, began production shipments in the third quarter of fiscal year 2027.",
+      "source_id": "nvda-10q-2026-08-26-mdna",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E15",
+      "claim": "The company raised its supply and capacity commitments from $119\u202fbillion to $279\u202fbillion as of July\u202f26\u202f2026 to secure future demand.",
+      "exact_quote": "We have significantly increased our supply and capacity commitments from $119 billion last quarter to $279 billion as of July 26, 2026 to meet future demand.",
+      "source_id": "nvda-10q-2026-08-26-mdna",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E16",
+      "claim": "As of July\u202f26\u202f2026, NVIDIA has made $99\u202fbillion in equity investments and committed $25\u202fbillion to further its ecosystem.",
+      "exact_quote": "These include equity investments of $99 billion and equity investment commitments of $25 billion as of July 26, 2026.",
+      "source_id": "nvda-10q-2026-08-26-mdna",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E17",
+      "claim": "NVIDIA\u2019s new AI\u2011cloud partner model involves $36\u202fbillion of six\u2011year commitments that may generate future revenue\u2011share but could be affected by market changes.",
+      "exact_quote": "Our commitments, which are typically six years in duration, totaled $36 billion as of July 26, 2026, and decrease as capacity is used by third-party customers or by us for our research and development efforts.",
+      "source_id": "nvda-10q-2026-08-26-mdna",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E18",
+      "claim": "NVIDIA's growth strategy involves large, multi\u2011year capital commitments to secure supply, cloud services, and lease data\u2011center capacity.",
+      "exact_quote": "To support our operations and growth, we commit capital to secure supply and capacity, obtain cloud services, and lease data center capacity.",
+      "source_id": "nvda-10q-2026-08-26-risk-factors",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E19",
+      "claim": "If actual demand or the company's plans change, NVIDIA may be unable to scale back these long\u2011term commitments.",
+      "exact_quote": "If future demand, our needs or plans differ from our expectations, we may be unable to reduce these commitments.",
+      "source_id": "nvda-10q-2026-08-26-risk-factors",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E20",
+      "claim": "Future AI\u2011infrastructure demand depends on customers' and partners' ability to generate revenue and continue investing in computing resources, especially for open\u2011model development.",
+      "exact_quote": "Future demand may be affected by the ability of customers and partners, including those developing open models, to generate revenue and sustain investment in computing infrastructure.",
+      "source_id": "nvda-10q-2026-08-26-risk-factors",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E21",
+      "claim": "NVIDIA faces risk that customers or partners could default on payments, lack needed capital, miss project timelines, or become insolvent.",
+      "exact_quote": "Customers or partners may fail to fulfill their financial commitments, secure necessary capital or infrastructure, complete projects on schedule or within budget, or experience financial distress or insolvency.",
+      "source_id": "nvda-10q-2026-08-26-risk-factors",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E22",
+      "claim": "Power shortages, regulatory actions, permitting delays, or community opposition could hinder the construction or operation of data centers.",
+      "exact_quote": "Power constraints, government actions or regulations, permitting delays, or community opposition may delay, restrict or prevent the development or operation of data centers.",
+      "source_id": "nvda-10q-2026-08-26-risk-factors",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E25",
+      "claim": "NVIDIA has agreements with AI cloud providers that obligate it to purchase capacity if the clouds cannot sell the committed resources to third parties.",
+      "exact_quote": "We have entered into agreements with AI clouds to enable broader access to our data center infrastructure products. Under the agreements, if AI clouds do not successfully sell committed capacity to third\u2011party customers, we have agreed to purchase that capacity.",
+      "source_id": "nvda-10q-2026-08-26-risk-factors",
+      "verified": false,
+      "note": "quote longer than 220 characters"
+    },
+    {
+      "evidence_id": "E23",
+      "claim": "The company may lack sufficient demand or operational capability to use or resell all the capacity it has agreed to purchase.",
+      "exact_quote": "We may not have sufficient demand for, or the operational ability to use or resell, all the capacity we are committed to purchase.",
+      "source_id": "nvda-10q-2026-08-26-risk-factors",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E28",
+      "claim": "NVIDIA's Q2 FY27 revenue more than doubled YoY, driven largely by data\u2011center sales.",
+      "exact_quote": "Revenue of $96.2 billion, up 106% from a year ago ... Data Center revenue of $89.0 billion, up 117% from a year ago.",
+      "source_id": "nvda-8k-2026-08-26-release",
+      "verified": false,
+      "note": "quote not found verbatim in the named source"
+    },
+    {
+      "evidence_id": "E24",
+      "claim": "The company expects Q3 FY27 revenue of about $108\u202fbillion and is not counting any data\u2011center compute sales from China.",
+      "exact_quote": "Revenue is expected to be $108.0 billion, plus or minus 2%. NVIDIA is not assuming any Data Center compute revenue from China in its outlook.",
+      "source_id": "nvda-8k-2026-08-26-release",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E30",
+      "claim": "NVIDIA is leveraging over $500\u202fbillion of third\u2011party capital through financing partnerships to fund AI\u2011infrastructure buildout.",
+      "exact_quote": "Announced strategic partnerships to establish independent compute financing platforms with Apollo, BlackRock, Blackstone, Brookfield, Goldman Sachs and KKR to mobilize over $500 billion of third\u2011party capital for the buildout of AI infrastructure over time, subject to definitive agreements.",
+      "source_id": "nvda-8k-2026-08-26-release",
+      "verified": false,
+      "note": "quote longer than 220 characters"
+    },
+    {
+      "evidence_id": "E25",
+      "claim": "The Vera Rubin platform is now in full production with major cloud partners.",
+      "exact_quote": "Announced the NVIDIA Vera Rubin platform is ramping into full production with racks running at partners including CoreWeave, Google Cloud, Microsoft Azure, Oracle Cloud Infrastructure and Nebius.",
+      "source_id": "nvda-8k-2026-08-26-release",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E26",
+      "claim": "NVIDIA unveiled Vera, the first CPU built specifically for AI agents, with broad adoption planned.",
+      "exact_quote": "Unveiled NVIDIA Vera, the first CPU built for AI agents, with broad adoption planned across the world\u2019s leading technology providers.",
+      "source_id": "nvda-8k-2026-08-26-release",
+      "verified": true,
+      "note": null
+    },
+    {
+      "evidence_id": "E33",
+      "claim": "Gross margins are projected to slip slightly to 74%\u202f\u00b1\u202f50\u202fbps in the next quarter after holding at 75% in Q2.",
+      "exact_quote": "GAAP and non\u2011GAAP gross margins are expected to be 74.0%, plus or minus 50 basis points.",
+      "source_id": "nvda-8k-2026-08-26-release",
+      "verified": false,
+      "note": "quote not found verbatim in the named source"
+    },
+    {
+      "evidence_id": "E34",
+      "claim": "High\u2011profile customers such as SpaceXAI and Apple are adopting NVIDIA\u2019s AI\u2011infrastructure products.",
+      "exact_quote": "\u2022 Announced that SpaceXAI will deploy NVIDIA Vera CPUs to accelerate its next generation of agentic AI applications.\n\u2022 Revealed that NVIDIA GPUs with Confidential Computing are now used for confidential inference in Apple\u2019s Private Cloud Compute.",
+      "source_id": "nvda-8k-2026-08-26-release",
+      "verified": false,
+      "note": "quote longer than 220 characters"
+    },
+    {
+      "evidence_id": "E35",
+      "claim": "Edge Computing revenue grew 27% YoY to $7.2\u202fbillion, showing expanding demand beyond data centers.",
+      "exact_quote": "Second\u2011quarter Edge Computing revenue was $7.2 billion, up 13% from the previous quarter and up 27% from a year ago.",
+      "source_id": "nvda-8k-2026-08-26-release",
+      "verified": false,
+      "note": "quote not found verbatim in the named source"
+    }
+  ]
+}

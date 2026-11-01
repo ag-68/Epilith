@@ -1,0 +1,175 @@
+{
+  "ticker": "NVDA",
+  "company_name": "NVIDIA Corporation",
+  "listing": "NASDAQ:NVDA",
+  "currency": "USD",
+  "data_snapshot_id": "4d080c18-289a-568b-9eeb-cee0ee7b174f",
+  "report_path": "experiments\\exp0a\\output\\report_NVDA_ASML_TSMC_20261031T220902Z.json",
+  "report_generated_at": "2026-10-31T22:09:02.255214Z",
+  "facts": [
+    {
+      "metric": "revenue",
+      "value": "302969000000",
+      "unit": "USD",
+      "currency": "USD",
+      "period_label": "TTM 2025-07-28 to 2026-07-26",
+      "source_id": "19ef503a5770f566",
+      "cross_check_source_id": "a8247969d0f004fe",
+      "status": "valid",
+      "confirmation": "unconfirmed",
+      "provenance": null
+    },
+    {
+      "metric": "operating_income",
+      "value": "197579000000",
+      "unit": "USD",
+      "currency": "USD",
+      "period_label": "TTM 2025-07-28 to 2026-07-26",
+      "source_id": "19ef503a5770f566",
+      "cross_check_source_id": null,
+      "status": "valid",
+      "confirmation": "unconfirmed",
+      "provenance": null
+    },
+    {
+      "metric": "net_income",
+      "value": "192879000000",
+      "unit": "USD",
+      "currency": "USD",
+      "period_label": "TTM 2025-07-28 to 2026-07-26",
+      "source_id": "19ef503a5770f566",
+      "cross_check_source_id": "a8247969d0f004fe",
+      "status": "valid",
+      "confirmation": "unconfirmed",
+      "provenance": null
+    },
+    {
+      "metric": "operating_cash_flow",
+      "value": "134360000000",
+      "unit": "USD",
+      "currency": "USD",
+      "period_label": "TTM 2025-07-28 to 2026-07-26",
+      "source_id": "19ef503a5770f566",
+      "cross_check_source_id": "a8247969d0f004fe",
+      "status": "valid",
+      "confirmation": "unconfirmed",
+      "provenance": null
+    },
+    {
+      "metric": "capex",
+      "value": "7354000000",
+      "unit": "USD",
+      "currency": "USD",
+      "period_label": "TTM 2025-07-28 to 2026-07-26",
+      "source_id": "19ef503a5770f566",
+      "cross_check_source_id": "a8247969d0f004fe",
+      "status": "valid",
+      "confirmation": "unconfirmed",
+      "provenance": null
+    },
+    {
+      "metric": "total_debt",
+      "value": "33366000000",
+      "unit": "USD",
+      "currency": "USD",
+      "period_label": "as of 2026-07-26",
+      "source_id": "19ef503a5770f566",
+      "cross_check_source_id": "a8247969d0f004fe",
+      "status": "valid",
+      "confirmation": "unconfirmed",
+      "provenance": null
+    },
+    {
+      "metric": "cash",
+      "value": "22443000000",
+      "unit": "USD",
+      "currency": "USD",
+      "period_label": "as of 2026-07-26",
+      "source_id": "19ef503a5770f566",
+      "cross_check_source_id": "a8247969d0f004fe",
+      "status": "valid",
+      "confirmation": "unconfirmed",
+      "provenance": null
+    },
+    {
+      "metric": "price",
+      "value": "204.64",
+      "unit": "USD",
+      "currency": "USD",
+      "period_label": "2026-10-30T00:00:00+00:00",
+      "source_id": "942f66d2cc44975a",
+      "cross_check_source_id": "7f606b71e433d9eb",
+      "status": "valid",
+      "confirmation": "unconfirmed",
+      "provenance": null
+    },
+    {
+      "metric": "reporting_currency",
+      "value": "1",
+      "unit": "USD",
+      "currency": "USD",
+      "period_label": "as of 2026-07-26",
+      "source_id": "19ef503a5770f566",
+      "cross_check_source_id": null,
+      "status": "valid",
+      "confirmation": "unconfirmed",
+      "provenance": null
+    },
+    {
+      "metric": "fiscal_period",
+      "value": "739823",
+      "unit": "date_ordinal",
+      "currency": null,
+      "period_label": "as of 2026-07-26",
+      "source_id": "19ef503a5770f566",
+      "cross_check_source_id": null,
+      "status": "valid",
+      "confirmation": "unconfirmed",
+      "provenance": null
+    },
+    {
+      "metric": "listing",
+      "value": "1",
+      "unit": "NASDAQ:NVDA",
+      "currency": "USD",
+      "period_label": "as of 2026-07-26",
+      "source_id": "19ef503a5770f566",
+      "cross_check_source_id": null,
+      "status": "valid",
+      "confirmation": "unconfirmed",
+      "provenance": null
+    }
+  ],
+  "excluded": [
+    {
+      "metric": "shares_outstanding",
+      "value": "24100000000",
+      "unit": "shares",
+      "currency": null,
+      "period_label": "as of 2026-08-21",
+      "source_id": "19ef503a5770f566",
+      "cross_check_source_id": null,
+      "status": "failed",
+      "confirmation": "unconfirmed",
+      "provenance": null
+    }
+  ],
+  "valuation": {
+    "market_cap": "4931824000000.00",
+    "enterprise_value": "4942747000000.00",
+    "trailing_pe": "25.56952286148310598872868482",
+    "ev_sales": "16.31436549613986909551802330",
+    "fcf": "127006000000",
+    "fcf_yield": "0.02575233828295575835634037224",
+    "ttm_end_date": "2026-07-26",
+    "balance_sheet_as_of": "2026-07-26"
+  },
+  "valuation_notes": [
+    "Descriptive evidence only. Trailing P/E is misleading for cyclical semiconductor companies.",
+    "No forward P/E, DCF, reverse valuation, or scenario weighting in Experiment 0a.",
+    "FCF = TTM operating cash flow \u2212 TTM capex. Provider FCF is not used.",
+    "Market cap mixes price as of 2026-10-30T00:00:00+00:00 with shares as of 2026-08-21."
+  ],
+  "price": "204.64",
+  "price_as_of": "2026-10-30T00:00:00Z"
+}

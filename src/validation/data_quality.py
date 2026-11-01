@@ -3,7 +3,9 @@ from __future__ import annotations
 from decimal import Decimal
 
 from data.models import (
+    AUTHORITY_ORIGINS,
     CompanyValidation,
+    Confirmation,
     CrossCheck,
     DiscrepancyClass,
     FieldResult,
@@ -43,6 +45,16 @@ MANDATORY_CROSS_CHECK = {
 }
 
 TOLERANCE = Decimal("0.01")
+
+
+def _provenance(origin: str | None) -> str | None:
+    if origin is None:
+        return None
+    if origin in AUTHORITY_ORIGINS:
+        return "authority"
+    if origin == "company_report":
+        return "company"
+    return origin
 
 
 def _pct_diff(primary: Decimal, other: Decimal) -> Decimal | None:
@@ -132,6 +144,7 @@ def evaluate_company(
     cross_checks: list[CrossCheck],
 ) -> CompanyValidation:
     checks = {c.metric: c for c in cross_checks}
+    origins = {source.source_id: source.origin for source in snapshot.sources}
     fields: list[FieldResult] = []
     discrepancies: list[CrossCheck] = []
 
@@ -149,29 +162,28 @@ def evaluate_company(
 
         ok, notes = _fact_valid(fact, market)
         check = checks.get(metric)
-        check_ok = True
-        if metric in MANDATORY_CROSS_CHECK:
-            if check is None:
-                check_ok = False
-                notes.append("No independent cross-check")
-                discrepancies.append(
-                    CrossCheck(
-                        metric=metric,
-                        primary_value=market.price if market else (fact.value if fact else None),
-                        primary_source_id=market.source_id if market else (fact.source_id if fact else None),
-                        classification=DiscrepancyClass.unresolved,
-                        explanation="No independent cross-check from a different origin.",
-                        passed=False,
-                    )
-                )
-            else:
-                discrepancies.append(check)
-                if not check.passed:
-                    check_ok = False
-                    notes.append(check.explanation or "Cross-check failed")
+        source_id = market.source_id if market else (fact.source_id if fact else None)
+        provenance = "market" if market else _provenance(origins.get(source_id or ""))
 
-        valid = ok and check_ok if metric in MANDATORY_CROSS_CHECK else ok
-        # Metadata fields 10-12 have no mandatory cross-check.
+        # The home-market filing is the figure kept. A second document can confirm it, explain a
+        # difference, or dispute it; it never decides whether the field counts.
+        confirmation = Confirmation.unconfirmed
+        if check is not None and check.cross_check_value is None:
+            check = None  # an empty comparison is the same as no second document
+        if metric in MANDATORY_CROSS_CHECK and check is not None:
+            discrepancies.append(check)
+            if check.passed:
+                confirmation = Confirmation.confirmed
+            elif check.classification in (None, DiscrepancyClass.unresolved):
+                confirmation = Confirmation.disputed
+                notes.append(check.explanation or "Second document disagrees and the difference is unexplained")
+            else:
+                confirmation = Confirmation.explained
+                notes.append(check.explanation or f"Difference explained as {check.classification.value}")
+        elif metric in MANDATORY_CROSS_CHECK:
+            notes.append("No second document states this line")
+
+        valid = ok
         fields.append(
             FieldResult(
                 metric=metric,
@@ -179,22 +191,40 @@ def evaluate_company(
                 unit=market.currency if market else (fact.unit if fact else None),
                 currency=market.currency if market else (fact.currency if fact else None),
                 period_label=_period_label(fact, market),
-                source_id=market.source_id if market else (fact.source_id if fact else None),
+                source_id=source_id,
                 cross_check_source_id=check.cross_check_source_id if check else None,
                 cross_check_value=check.cross_check_value if check else None,
                 difference=check.difference if check else None,
                 status=FieldStatus.valid if valid else FieldStatus.failed if (fact or market) else FieldStatus.missing,
+                confirmation=confirmation,
+                provenance=provenance,
                 notes=notes,
             )
         )
 
     valid_count = sum(1 for f in fields if f.status is FieldStatus.valid)
+    confirmed_count = sum(1 for f in fields if f.confirmation is Confirmation.confirmed)
     findings = list(snapshot.notes)
     if valid_count < 11:
         findings.append(f"{snapshot.company.ticker} failed field validity ({valid_count}/12)")
+    disputed = [f.metric for f in fields if f.confirmation is Confirmation.disputed]
+    if disputed:
+        findings.append(
+            f"{snapshot.company.ticker}: a second document disagrees on {', '.join(disputed)} and the difference "
+            "is unexplained. The home-market figure is kept; read both before relying on the line."
+        )
+    company_only = [
+        f.metric for f in fields if f.provenance == "company" and f.confirmation is Confirmation.unconfirmed
+    ]
+    if company_only:
+        findings.append(
+            f"{snapshot.company.ticker}: {', '.join(company_only)} come from the company's own release only; "
+            "the home-market filing did not state them."
+        )
     return CompanyValidation(
         ticker=snapshot.company.ticker,
         valid_count=valid_count,
+        confirmed_count=confirmed_count,
         fields=fields,
         discrepancies=discrepancies,
         valuation=valuation,

@@ -11,8 +11,9 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 load_dotenv(ROOT / ".env")
 
-from data.config import DATA_DIR, company_by_ticker  # noqa: E402
+from data.config import DATA_DIR  # noqa: E402
 from data.ingestion import CompanyIngestor  # noqa: E402
+from data.registry import CompanyRegistry  # noqa: E402
 from data.models import ExperimentReport  # noqa: E402
 from validation.data_quality import evaluate_company  # noqa: E402
 from valuation.multiples import compute_panel  # noqa: E402
@@ -30,25 +31,27 @@ def render_markdown(report: ExperimentReport) -> str:
         "",
     ]
     for company in report.companies:
-        lines.append(f"## {company.ticker}: {company.valid_count}/12 valid")
+        lines.append(f"## {company.ticker}: {company.valid_count}/12 valid, {company.confirmed_count} confirmed by a second document")
         lines.append("")
         lines.append(
-            "| Metric | Value | Unit | Currency | Period/As-of | Source | Cross-check source | Cross-check value | Difference | Status |"
+            "| Metric | Value | Unit | Currency | Period/As-of | Source | Provenance | Cross-check source | Cross-check value | Difference | Status | Confirmation |"
         )
-        lines.append("|---|---|---|---|---|---|---|---|---|---|")
+        lines.append("|---|---|---|---|---|---|---|---|---|---|---|---|")
         for field in company.fields:
             lines.append(
-                "| {metric} | {value} | {unit} | {currency} | {period} | {source} | {xsrc} | {xval} | {diff} | {status} |".format(
+                "| {metric} | {value} | {unit} | {currency} | {period} | {source} | {prov} | {xsrc} | {xval} | {diff} | {status} | {conf} |".format(
                     metric=field.metric,
                     value=field.value,
                     unit=field.unit,
                     currency=field.currency,
                     period=field.period_label,
                     source=(field.source_id or "")[:12],
+                    prov=field.provenance or "",
                     xsrc=(field.cross_check_source_id or "")[:12],
                     xval=field.cross_check_value,
                     diff=field.difference,
                     status=field.status.value,
+                    conf=field.confirmation.value,
                 )
             )
         lines.append("")
@@ -106,7 +109,6 @@ def run(tickers: list[str]) -> ExperimentReport:
         f"Raw artifacts stored under {DATA_DIR / 'raw'}.",
     ]
     for ticker in tickers:
-        company_by_ticker(ticker)
         snapshot, checks = ingestor.ingest(ticker)
         panel = compute_panel(snapshot)
         companies.append(evaluate_company(snapshot, panel, checks))
@@ -124,11 +126,13 @@ def run(tickers: list[str]) -> ExperimentReport:
     )
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Run Experiment 0a data validation")
-    parser.add_argument("--company", action="append", dest="companies", help="Ticker to run (repeatable)")
-    args = parser.parse_args()
-    tickers = [t.upper() for t in (args.companies or ["NVDA", "ASML", "TSMC"])]
+def run_and_write(tickers: list[str]) -> tuple[ExperimentReport, Path, Path]:
+    """Run the data check and write the JSON and Markdown reports. Used by 0b when a report is missing.
+
+    Names are accepted as well as tickers; new US companies are added to the address book on the way.
+    """
+    registry = CompanyRegistry()
+    tickers = [registry.resolve(item).ticker for item in tickers]
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     report = run(tickers)
     stamp = report.generated_at.strftime("%Y%m%dT%H%M%SZ")
@@ -136,6 +140,15 @@ def main() -> None:
     md_path = OUTPUT_DIR / f"report_{'_'.join(tickers)}_{stamp}.md"
     json_path.write_text(report.model_dump_json(indent=2), encoding="utf-8")
     md_path.write_text(render_markdown(report), encoding="utf-8")
+    return report, json_path, md_path
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Run Experiment 0a data validation")
+    parser.add_argument("--company", action="append", dest="companies", help="Ticker to run (repeatable)")
+    args = parser.parse_args()
+    tickers = [t.upper() for t in (args.companies or ["NVDA", "ASML", "TSMC"])]
+    report, json_path, md_path = run_and_write(tickers)
     print(render_markdown(report))
     print(f"Wrote {json_path}")
     print(f"Wrote {md_path}")

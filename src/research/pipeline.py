@@ -1,0 +1,269 @@
+from __future__ import annotations
+
+import json
+import re
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import TypeVar
+
+from pydantic import BaseModel, ValidationError
+
+from data.hashing import content_hash
+from llm.base import ChatMessage, LLMProvider, LLMRequest, LLMResponse
+from llm.config import LLMConfig
+from llm.recorder import LLMCallStore
+from llm.schema import strict_schema
+from research.evidence import verify_claims
+from research.memo import render_memo
+from research.models import (
+    ClaimDraft,
+    EvidenceClaim,
+    EvidenceDraft,
+    EvidenceSet,
+    FactSheet,
+    ModelRun,
+    RedTeamOutput,
+    ResearchRun,
+    SourceBundle,
+    Thesis,
+)
+from research.numbers import audit_numbers
+from research.prompts import (
+    ANALYST_SYSTEM,
+    EVIDENCE_SYSTEM,
+    PROMPT_VERSION,
+    RED_TEAM_SYSTEM,
+    analyst_user,
+    evidence_user,
+    red_team_user,
+)
+
+T = TypeVar("T", bound=BaseModel)
+PER_SOURCE_VERIFIED = 6
+
+_FENCE = re.compile(r"^```(?:json)?\s*|\s*```$", re.MULTILINE)
+
+
+def parse_reply(content: str, model: type[T]) -> T:
+    text = _FENCE.sub("", content.strip())
+    try:
+        return model.model_validate_json(text)
+    except ValidationError as exc:
+        raise ValueError(f"Model reply did not match {model.__name__}: {exc.errors()[:3]}\nReply head: {text[:300]}") from exc
+
+
+class ResearchPipeline:
+    """Validated facts + stored sources -> evidence -> thesis -> red team -> memo.
+
+    The analyst step receives only ``FactSheet``, ``EvidenceSet`` and ``SourceBundle``.
+    There is no parameter for portfolio, desired outcome, or sector preference, by design.
+    """
+
+    def __init__(
+        self,
+        provider: LLMProvider,
+        config: LLMConfig,
+        artifact_root: Path,
+        *,
+        prompt_version: str = PROMPT_VERSION,
+    ) -> None:
+        self.provider = provider
+        self.config = config
+        self.artifact_root = artifact_root
+        self.prompt_version = prompt_version
+
+    # -- public --------------------------------------------------------------
+
+    def run(self, sheet: FactSheet, bundle: SourceBundle) -> ResearchRun:
+        if bundle.ticker != sheet.ticker:
+            raise ValueError(f"Bundle is for {bundle.ticker}, facts are for {sheet.ticker}")
+        created_at = datetime.now(timezone.utc)
+        run_id = f"{created_at.strftime('%Y%m%dT%H%M%SZ')}_{sheet.ticker}_{bundle.bundle_id[:8]}"
+        artifact_dir = self.artifact_root / sheet.ticker / run_id
+        if artifact_dir.exists():
+            raise FileExistsError(f"Refusing to overwrite research run {artifact_dir}")
+        artifact_dir.mkdir(parents=True)
+        calls = LLMCallStore(artifact_dir / "llm_calls")
+        model_runs: list[ModelRun] = []
+        notes: list[str] = []
+
+        self._write(artifact_dir / "fact_sheet.json", sheet)
+        self._write(artifact_dir / "source_bundle.json", bundle)
+
+        # One extraction call per stored section. Each call carries one section, so a request never has to
+        # hold the whole filing, and the merged claims are then checked against the full bundle.
+        claims: list[ClaimDraft] = []
+        seen: set[tuple[str, str]] = set()
+        for excerpt in bundle.excerpts:
+            single = bundle.model_copy(update={"excerpts": [excerpt]})
+            draft = self._ask(
+                calls,
+                model_runs,
+                purpose="evidence",
+                model=self.config.evidence_model,
+                system=EVIDENCE_SYSTEM,
+                user=evidence_user(single),
+                schema=EvidenceDraft,
+            )
+            for claim in draft.claims:
+                key = (claim.source_id, claim.exact_quote.strip())
+                if key not in seen:
+                    seen.add(key)
+                    claims.append(claim)
+        evidence = verify_claims(EvidenceDraft(claims=claims), bundle)
+        evidence, trimmed = _keep_first_verified_per_source(evidence, PER_SOURCE_VERIFIED)
+        if trimmed:
+            notes.append(
+                f"Kept the first {PER_SOURCE_VERIFIED} verified claims from each section so later steps "
+                f"fit the token budget; {trimmed} extra verified claims were set aside."
+            )
+        self._write(artifact_dir / "evidence.json", evidence)
+        if not evidence.verified:
+            notes.append("No evidence claim passed quote verification; the thesis rests on facts alone.")
+
+        thesis = self._ask(
+            calls,
+            model_runs,
+            purpose="analyst",
+            model=self.config.analyst_model,
+            system=ANALYST_SYSTEM,
+            user=analyst_user(sheet, evidence, bundle),
+            schema=Thesis,
+        )
+        notes.extend(self._check_citations(thesis, evidence))
+        self._write(artifact_dir / "thesis.json", thesis)
+
+        red_team = self._ask(
+            calls,
+            model_runs,
+            purpose="red_team",
+            model=self.config.red_team_model,
+            system=RED_TEAM_SYSTEM,
+            user=red_team_user(sheet, thesis, evidence, bundle),
+            schema=RedTeamOutput,
+        )
+        self._write(artifact_dir / "red_team.json", red_team)
+
+        number_findings = audit_numbers(sheet, thesis, red_team)
+        memo = render_memo(
+            run_id=run_id,
+            prompt_version=self.prompt_version,
+            sheet=sheet,
+            bundle=bundle,
+            evidence=evidence,
+            thesis=thesis,
+            red_team=red_team,
+            number_findings=number_findings,
+            model_runs=model_runs,
+        )
+        (artifact_dir / "memo.md").write_text(memo, encoding="utf-8")
+
+        result = ResearchRun(
+            run_id=run_id,
+            ticker=sheet.ticker,
+            created_at=created_at,
+            prompt_version=self.prompt_version,
+            fact_sheet=sheet,
+            bundle_id=bundle.bundle_id,
+            evidence=evidence,
+            thesis=thesis,
+            red_team=red_team,
+            number_findings=number_findings,
+            model_runs=model_runs,
+            notes=notes,
+            memo_markdown=memo,
+            memo_hash=content_hash(memo.encode("utf-8")),
+            artifact_dir=str(artifact_dir),
+        )
+        self._write(artifact_dir / "run.json", result)
+        return result
+
+    # -- internals -----------------------------------------------------------
+
+    def _ask(
+        self,
+        calls: LLMCallStore,
+        model_runs: list[ModelRun],
+        *,
+        purpose: str,
+        model: str,
+        system: str,
+        user: str,
+        schema: type[T],
+    ) -> T:
+        request = LLMRequest(
+            model=model,
+            messages=[ChatMessage(role="system", content=system), ChatMessage(role="user", content=user)],
+            json_schema=strict_schema(schema),
+            schema_name=schema.__name__,
+            temperature=self.config.temperature,
+            max_tokens=self.config.max_tokens,
+            purpose=purpose,
+        )
+        response: LLMResponse = self.provider.complete(request)
+        calls.record(request, response)
+        model_runs.append(
+            ModelRun(
+                purpose=purpose,
+                provider=response.provider,
+                model=response.model,
+                model_version=response.model_version,
+                prompt_tokens=response.prompt_tokens,
+                completion_tokens=response.completion_tokens,
+            )
+        )
+        return parse_reply(response.content, schema)
+
+    @staticmethod
+    def _check_citations(thesis: Thesis, evidence: EvidenceSet) -> list[str]:
+        known = {claim.evidence_id for claim in evidence.verified}
+        notes: list[str] = []
+        cited: set[str] = set()
+        for risk in thesis.key_risks:
+            cited.update(risk.evidence_ids)
+        for assumption in thesis.assumptions:
+            cited.update(assumption.evidence_ids)
+        unknown = sorted(cited - known)
+        if unknown:
+            notes.append(f"Thesis cites evidence ids that are not verified: {', '.join(unknown)}")
+        assumption_ids = {a.id for a in thesis.assumptions}
+        missing = [item.assumption_id for item in thesis.most_likely_wrong if item.assumption_id not in assumption_ids]
+        if missing:
+            notes.append(f"most_likely_wrong names unknown assumptions: {', '.join(missing)}")
+        if len(thesis.most_likely_wrong) != 3:
+            notes.append(f"most_likely_wrong has {len(thesis.most_likely_wrong)} items; the spec asks for three")
+        return notes
+
+    @staticmethod
+    def _write(path: Path, payload: BaseModel) -> None:
+        if path.exists():
+            raise FileExistsError(f"Refusing to overwrite {path}")
+        path.write_text(json.dumps(payload.model_dump(mode="json"), indent=2), encoding="utf-8")
+
+
+def _keep_first_verified_per_source(evidence: EvidenceSet, limit: int) -> tuple[EvidenceSet, int]:
+    """Keep every unverified claim (they stay in the appendix) and the first ``limit`` verified ones per source."""
+    kept: list[EvidenceClaim] = []
+    counts: dict[str, int] = {}
+    trimmed = 0
+    for claim in evidence.claims:
+        if not claim.verified:
+            kept.append(claim)
+            continue
+        used = counts.get(claim.source_id, 0)
+        if used < limit:
+            kept.append(claim)
+            counts[claim.source_id] = used + 1
+        else:
+            trimmed += 1
+    if not trimmed:
+        return evidence, 0
+    renumbered: list[EvidenceClaim] = []
+    next_id = 1
+    for claim in kept:
+        if claim.verified:
+            renumbered.append(claim.model_copy(update={"evidence_id": f"E{next_id}"}))
+            next_id += 1
+        else:
+            renumbered.append(claim)
+    return EvidenceSet(claims=renumbered), trimmed
