@@ -1,0 +1,14 @@
+# Experiment 0b model settings. Provider code lives behind src/llm/base.py.
+# The key is read from the environment variable named in api_key_env:
+# locally from .env, in cloud agents from a Runtime Secret.
+provider: groq
+api_key_env: GROQ_API_KEY
+
+# Analyst and red team use different model families on purpose.
+# Both support strict JSON schema output on Groq.
+evidence_model: openai/gpt-oss-120b
+analyst_model: openai/gpt-oss-120b
+red_team_model: qwen/qwen3.8-27b
+
+temperature: 0.2
+max_tokens: 8000
