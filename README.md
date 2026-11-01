@@ -52,7 +52,7 @@ pip install -r requirements.txt
 copy .env.example .env
 ```
 
-Set `SEC_USER_AGENT` in `.env` to a string that includes a contact email. SEC EDGAR rejects anonymous clients.
+Set `SEC_USER_AGENT` in `.env` to a string that includes a real contact mailbox. SEC EDGAR rejects anonymous clients, and it also blocks no-reply addresses (such as `@users.noreply.github.com`) as "undeclared automated tool", from any machine.
 Set `GROQ_API_KEY` for Experiment 0b. In cloud agents it is a Runtime Secret with the same name.
 
 ## Run Experiment 0a

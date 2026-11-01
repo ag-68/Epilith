@@ -18,6 +18,7 @@ from data.snapshots import SnapshotStore
 
 SEC_BASE = "https://data.sec.gov"
 SEC_WWW = "https://www.sec.gov"
+NO_REPLY = re.compile(r"no-?reply", re.IGNORECASE)
 
 
 @dataclass(frozen=True)
@@ -46,6 +47,12 @@ class SecEdgarProvider:
             raise RuntimeError(
                 "SEC_USER_AGENT must be set in the environment and include a contact email. "
                 "See .env.example."
+            )
+        if NO_REPLY.search(self.user_agent):
+            # SEC answers "Undeclared Automated Tool" to a no-reply contact, on any machine.
+            raise RuntimeError(
+                "SEC_USER_AGENT must give a mailbox SEC can write to. A no-reply address "
+                f"({NO_REPLY.search(self.user_agent).group(0)}) is treated as undeclared and blocked."
             )
         self.timeout = timeout
 
