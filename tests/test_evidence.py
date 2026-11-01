@@ -55,3 +55,11 @@ def test_verify_claims_marks_each_outcome():
     assert "shorter" in evidence.claims[2].note
     assert "not in the bundle" in evidence.claims[3].note
     assert [c.evidence_id for c in evidence.verified] == ["E1"]
+
+
+def test_verify_claims_rejects_a_quote_that_is_too_long():
+    long_quote = "x" * 221
+    draft = EvidenceDraft(claims=[ClaimDraft(claim="Long", exact_quote=long_quote, source_id="rel")])
+    evidence = verify_claims(draft, _bundle())
+    assert evidence.claims[0].verified is False
+    assert "longer" in (evidence.claims[0].note or "")

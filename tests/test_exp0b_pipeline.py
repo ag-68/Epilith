@@ -259,3 +259,21 @@ def test_evidence_is_extracted_one_section_at_a_time_and_merged(tmp_path: Path):
     assert [c.evidence_id for c in result.evidence.verified] == ["E1", "E2"]
     calls = sorted(p.name for p in (Path(result.artifact_dir) / "llm_calls").glob("*.json"))
     assert calls == ["01_evidence.json", "02_evidence.json", "03_analyst.json", "04_red_team.json"]
+
+
+def test_keep_first_verified_per_source_renumbers():
+    from research.models import EvidenceClaim, EvidenceSet
+    from research.pipeline import _keep_first_verified_per_source
+
+    claims = [
+        EvidenceClaim(evidence_id="E1", claim="a", exact_quote="aaaaa", source_id="s1", verified=True),
+        EvidenceClaim(evidence_id="E2", claim="b", exact_quote="bbbbb", source_id="s1", verified=True),
+        EvidenceClaim(evidence_id="E3", claim="c", exact_quote="ccccc", source_id="s1", verified=True),
+        EvidenceClaim(evidence_id="E4", claim="d", exact_quote="ddddd", source_id="s2", verified=True),
+        EvidenceClaim(evidence_id="E5", claim="bad", exact_quote="nope", source_id="s1", verified=False, note="fail"),
+    ]
+    kept, trimmed = _keep_first_verified_per_source(EvidenceSet(claims=claims), 2)
+    assert trimmed == 1
+    assert [c.evidence_id for c in kept.verified] == ["E1", "E2", "E3"]
+    assert [c.source_id for c in kept.verified] == ["s1", "s1", "s2"]
+    assert kept.unverified[0].note == "fail"

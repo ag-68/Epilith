@@ -17,6 +17,7 @@ from research.evidence import verify_claims
 from research.memo import render_memo
 from research.models import (
     ClaimDraft,
+    EvidenceClaim,
     EvidenceDraft,
     EvidenceSet,
     FactSheet,
@@ -38,6 +39,7 @@ from research.prompts import (
 )
 
 T = TypeVar("T", bound=BaseModel)
+PER_SOURCE_VERIFIED = 6
 
 _FENCE = re.compile(r"^```(?:json)?\s*|\s*```$", re.MULTILINE)
 
@@ -109,6 +111,12 @@ class ResearchPipeline:
                     seen.add(key)
                     claims.append(claim)
         evidence = verify_claims(EvidenceDraft(claims=claims), bundle)
+        evidence, trimmed = _keep_first_verified_per_source(evidence, PER_SOURCE_VERIFIED)
+        if trimmed:
+            notes.append(
+                f"Kept the first {PER_SOURCE_VERIFIED} verified claims from each section so later steps "
+                f"fit the token budget; {trimmed} extra verified claims were set aside."
+            )
         self._write(artifact_dir / "evidence.json", evidence)
         if not evidence.verified:
             notes.append("No evidence claim passed quote verification; the thesis rests on facts alone.")
@@ -231,3 +239,31 @@ class ResearchPipeline:
         if path.exists():
             raise FileExistsError(f"Refusing to overwrite {path}")
         path.write_text(json.dumps(payload.model_dump(mode="json"), indent=2), encoding="utf-8")
+
+
+def _keep_first_verified_per_source(evidence: EvidenceSet, limit: int) -> tuple[EvidenceSet, int]:
+    """Keep every unverified claim (they stay in the appendix) and the first ``limit`` verified ones per source."""
+    kept: list[EvidenceClaim] = []
+    counts: dict[str, int] = {}
+    trimmed = 0
+    for claim in evidence.claims:
+        if not claim.verified:
+            kept.append(claim)
+            continue
+        used = counts.get(claim.source_id, 0)
+        if used < limit:
+            kept.append(claim)
+            counts[claim.source_id] = used + 1
+        else:
+            trimmed += 1
+    if not trimmed:
+        return evidence, 0
+    renumbered: list[EvidenceClaim] = []
+    next_id = 1
+    for claim in kept:
+        if claim.verified:
+            renumbered.append(claim.model_copy(update={"evidence_id": f"E{next_id}"}))
+            next_id += 1
+        else:
+            renumbered.append(claim)
+    return EvidenceSet(claims=renumbered), trimmed

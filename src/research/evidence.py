@@ -5,6 +5,7 @@ import re
 from research.models import ClaimDraft, EvidenceClaim, EvidenceDraft, EvidenceSet, SourceBundle
 
 MIN_QUOTE_CHARS = 20
+MAX_QUOTE_CHARS = 220
 
 _QUOTE_CHARS = str.maketrans(
     {
@@ -51,6 +52,8 @@ def _check(item: ClaimDraft, bundle: SourceBundle) -> tuple[bool, str | None]:
     source = bundle.by_id(item.source_id)
     if source is None:
         return False, f"source_id {item.source_id!r} is not in the bundle"
+    if len(normalize(item.exact_quote)) > MAX_QUOTE_CHARS:
+        return False, f"quote longer than {MAX_QUOTE_CHARS} characters"
     if len(normalize(item.exact_quote)) < MIN_QUOTE_CHARS:
         return False, f"quote shorter than {MIN_QUOTE_CHARS} characters"
     if not quote_in_source(item.exact_quote, source.text):

@@ -60,9 +60,10 @@ customers, competition, capital spending, risks, and management guidance. For ea
 - source_id: the id of the source the quote came from.
 
 A program will check that each exact_quote exists in the named source. Claims whose quote does not match are discarded.
-You see one section of one document at a time; other sections are read separately. Return 6 to 10 strong claims
-from this section, each quote under 300 characters. The analyst will read only these claims and quotes, not the
-section itself, so cover what the section says about the business, demand, supply, customers, risks and guidance."""
+You see one section of one document at a time; other sections are read separately. Return at most 6 strong claims
+from this section, each quote under 220 characters. The first 6 verified claims from each section are the only
+ones the analyst will see, so cover what the section says about the business, demand, supply, customers, risks
+and guidance."""
 
 
 def evidence_user(bundle: SourceBundle) -> str:
