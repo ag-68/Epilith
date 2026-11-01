@@ -1,0 +1,11 @@
+{
+  "origin": "sec_edgar",
+  "ticker": "NVDA",
+  "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/nvda-20260826.htm",
+  "retrieved_at": "2026-11-01T19:37:05.332167+00:00",
+  "content_hash": "129ede8ca6955008ed6c31e8bbd7c6817a7ba11c6881522c230f9099fb43b51b",
+  "byte_length": 26564,
+  "filename": "0001045810-26-000073_nvda-20260826.htm",
+  "kind": "filing_document",
+  "accession": "0001045810-26-000073"
+}

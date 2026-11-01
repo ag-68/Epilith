@@ -11,7 +11,7 @@ from typing import Any
 
 import httpx
 
-from data.earnings_release import html_to_text
+from data.filing_text import exhibit_documents, filing_html_to_text
 from data.http import client as http_client
 from data.models import Company, Source
 from data.snapshots import SnapshotStore
@@ -202,19 +202,24 @@ class SecEdgarProvider:
                     accession=row["accessionNumber"],
                     document=name,
                     source=source,
-                    text=html_to_text(_read_text(source.raw_path)),
+                    text=filing_html_to_text(_read_text(source.raw_path)),
                 )
             )
         return documents
 
     def _earnings_exhibit_name(self, company: Company, store: SnapshotStore, row: dict[str, str]) -> str | None:
+        """The EX-99.1 document of an 8-K, read from the filing's index page. None if there is none."""
         accession = row["accessionNumber"]
         try:
-            index_source = self.fetch_filing_file(company, store, accession, f"{accession}-index.json", "SEC filing index")
-            index = json.loads(_read_text(index_source.raw_path))
-        except (httpx.HTTPError, json.JSONDecodeError):
-            return row["primaryDocument"]
-        return _choose_exhibit(index.get("directory", {}).get("item", []), row["primaryDocument"])
+            index_source = self.fetch_filing_file(company, store, accession, f"{accession}-index.htm", "SEC filing index")
+        except httpx.HTTPError:
+            return None
+        documents = exhibit_documents(_read_text(index_source.raw_path))
+        for wanted in ("EX-99.1", "EX-99"):
+            for name, kind in documents:
+                if kind == wanted and name.lower().endswith((".htm", ".html")):
+                    return name
+        return None
 
     def latest_earnings_exhibits(
         self,

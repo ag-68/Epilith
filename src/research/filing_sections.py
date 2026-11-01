@@ -10,7 +10,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-RULES_VERSION = "sections.1"
+RULES_VERSION = "sections.2"
 
 # A heading line: optional "Part II", then "Item 1A." then a short title. Table cells become " | " in the
 # text rendering, so separators are allowed around the pieces. Paragraphs that merely mention an item are

@@ -20,9 +20,9 @@ TEN_K_HTML = """
 <tr><td>Item 7.</td><td>Management's Discussion and Analysis of Financial Condition and Results of Operations</td><td>30</td></tr>
 <tr><td>Item 8.</td><td>Financial Statements</td><td>50</td></tr>
 </table>
-<p>Item 1. Business</p>
-<p>Our Company</p>
-<p>NVIDIA pioneered accelerated computing to help solve the most challenging computational problems.</p>
+<div><span style="font-weight:700">Item 1. Business</span></div>
+<div><span>Our Company</span></div>
+<div><span>NVIDIA pioneered accelerated computing to help solve the most challenging computational problems.</span></div>
 <p>Data Center is our largest market platform and is driven by demand for AI infrastructure.</p>
 <p>See Item 1A. Risk Factors in this report for more on supply constraints.</p>
 <p>4</p>
@@ -80,7 +80,16 @@ SUBMISSIONS = {
         }
     }
 }
-INDEX = {"directory": {"item": [{"name": "nvda-8k.htm"}, {"name": "ex991q2fy27.htm"}, {"name": "R1.htm"}]}}
+# The shape of SEC's <accession>-index.htm document table: Seq | Description | Document | Type | Size.
+INDEX_HTML = """
+<html><body><table class="tableFile">
+<tr><th>Seq</th><th>Description</th><th>Document</th><th>Type</th><th>Size</th></tr>
+<tr><td>1</td><td>8-K</td><td><a href="/Archives/edgar/data/1045810/000104581026000200/nvda-8k.htm">nvda-8k.htm</a></td><td>8-K</td><td>26564</td></tr>
+<tr><td>2</td><td>EX-99.1</td><td><a href="/Archives/edgar/data/1045810/000104581026000200/q2fy27pr.htm">q2fy27pr.htm</a></td><td>EX-99.1</td><td>90000</td></tr>
+<tr><td>3</td><td>EX-99.2</td><td><a href="/Archives/edgar/data/1045810/000104581026000200/q2fy27cfocommentary.htm">q2fy27cfocommentary.htm</a></td><td>EX-99.2</td><td>40000</td></tr>
+<tr><td>&nbsp;</td><td>Complete submission text file</td><td><a href="/Archives/edgar/data/1045810/000104581026000200/0001045810-26-000200.txt">0001045810-26-000200.txt</a></td><td>&nbsp;</td><td>200000</td></tr>
+</table></body></html>
+"""
 
 
 class FakeSec(SecEdgarProvider):
@@ -92,13 +101,13 @@ class FakeSec(SecEdgarProvider):
         self.calls.append(url)
         if url.endswith(f"CIK000{CIK}.json"):
             return json.dumps(SUBMISSIONS).encode()
-        if url.endswith("-index.json"):
-            return json.dumps(INDEX).encode()
+        if url.endswith("-index.htm"):
+            return INDEX_HTML.encode()
         if url.endswith("nvda-10k.htm"):
             return TEN_K_HTML.encode()
         if url.endswith("nvda-10q.htm"):
             return TEN_Q_HTML.encode()
-        if url.endswith("ex991q2fy27.htm"):
+        if url.endswith("q2fy27pr.htm"):
             return RELEASE_HTML.encode()
         raise AssertionError(f"unexpected url {url}")
 
@@ -109,9 +118,9 @@ def company():
 
 
 def test_cut_section_skips_table_of_contents_and_stops_at_next_item():
-    from data.earnings_release import html_to_text
+    from data.filing_text import filing_html_to_text
 
-    text = html_to_text(TEN_K_HTML)
+    text = filing_html_to_text(TEN_K_HTML)
     business = cut_section(text, TEN_K_SECTIONS[0])
     assert business is not None
     assert business.text.startswith("Item 1. Business")
@@ -131,9 +140,9 @@ def test_cut_section_skips_table_of_contents_and_stops_at_next_item():
 
 
 def test_cut_section_reads_quarterly_parts():
-    from data.earnings_release import html_to_text
+    from data.filing_text import filing_html_to_text
 
-    text = html_to_text(TEN_Q_HTML)
+    text = filing_html_to_text(TEN_Q_HTML)
     mdna = cut_section(text, TEN_Q_SECTIONS[0])
     assert mdna is not None and "Blackwell exceeded supply" in mdna.text
     assert "No material change" not in mdna.text
@@ -159,8 +168,10 @@ def test_build_source_bundle_writes_manifest_and_reuses_stored_files(tmp_path: P
 
     manifest = (folder / "sources.yaml").read_text(encoding="utf-8")
     assert "rules_version" in manifest and "raw_hash" in manifest
-    raw_files = list((tmp_path / "data" / "raw" / "sec_edgar" / "NVDA").glob("*.htm"))
-    assert len(raw_files) == 3
+    raw_files = sorted(p.name for p in (tmp_path / "data" / "raw" / "sec_edgar" / "NVDA").glob("*.htm"))
+    assert len(raw_files) == 4  # 10-K, 10-Q, the 8-K index page, the EX-99.1 release
+    assert any(name.endswith("-index.htm") for name in raw_files)
+    assert any(name.endswith("q2fy27pr.htm") for name in raw_files)
 
     # Same filings again: nothing downloaded except the small filing list, same folder, no rewrite.
     fetched_before = len(sec.calls)

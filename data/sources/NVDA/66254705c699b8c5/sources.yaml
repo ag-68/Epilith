@@ -1,0 +1,69 @@
+built_from: sec_edgar filings, fixed sections by heading
+rules_version: sections.2
+sources:
+- source_id: nvda-10k-2026-02-25-business
+  kind: filing
+  title: NVIDIA Corporation Form 10-K, period ended 25 January 2026, Item 1. Business
+    (first part)
+  url: https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm
+  published: &id001 2026-02-25
+  file: 10k_2026-02-25_business.txt
+  raw_path: C:\Users\ahmet\Documents\PythonProjects\Epilith\data\raw\sec_edgar\NVDA\20261101T193704Z_87f19380345bd8d8_0001045810-26-000021_nvda-20260125.htm
+  raw_hash: 87f19380345bd8d8af6f3d46f8fa6e95499f11e139b5dd6123669a1cfd32e135
+  section_chars: 11776
+  section_full_chars: 48103
+- source_id: nvda-10k-2026-02-25-risk-factors
+  kind: filing
+  title: NVIDIA Corporation Form 10-K, period ended 25 January 2026, Item 1A. Risk
+    Factors (first part)
+  url: https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm
+  published: *id001
+  file: 10k_2026-02-25_risk_factors.txt
+  raw_path: C:\Users\ahmet\Documents\PythonProjects\Epilith\data\raw\sec_edgar\NVDA\20261101T193704Z_87f19380345bd8d8_0001045810-26-000021_nvda-20260125.htm
+  raw_hash: 87f19380345bd8d8af6f3d46f8fa6e95499f11e139b5dd6123669a1cfd32e135
+  section_chars: 14989
+  section_full_chars: 114512
+- source_id: nvda-10k-2026-02-25-mdna
+  kind: filing
+  title: NVIDIA Corporation Form 10-K, period ended 25 January 2026, Item 7. Management's
+    Discussion and Analysis (first part)
+  url: https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm
+  published: *id001
+  file: 10k_2026-02-25_mdna.txt
+  raw_path: C:\Users\ahmet\Documents\PythonProjects\Epilith\data\raw\sec_edgar\NVDA\20261101T193704Z_87f19380345bd8d8_0001045810-26-000021_nvda-20260125.htm
+  raw_hash: 87f19380345bd8d8af6f3d46f8fa6e95499f11e139b5dd6123669a1cfd32e135
+  section_chars: 14256
+  section_full_chars: 34356
+- source_id: nvda-10q-2026-08-26-mdna
+  kind: filing
+  title: NVIDIA Corporation Form 10-Q, period ended 26 July 2026, Item 2. Management's
+    Discussion and Analysis (first part)
+  url: https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm
+  published: &id002 2026-08-26
+  file: 10q_2026-08-26_mdna.txt
+  raw_path: C:\Users\ahmet\Documents\PythonProjects\Epilith\data\raw\sec_edgar\NVDA\20261101T193705Z_e4b3889df3886edb_0001045810-26-000075_nvda-20260726.htm
+  raw_hash: e4b3889df3886edb243df887fcc1677263ec800ecbe369fa5f7c8597d1fe5602
+  section_chars: 14416
+  section_full_chars: 38307
+- source_id: nvda-10q-2026-08-26-risk-factors
+  kind: filing
+  title: NVIDIA Corporation Form 10-Q, period ended 26 July 2026, Item 1A. Risk Factors
+    (first part)
+  url: https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm
+  published: *id002
+  file: 10q_2026-08-26_risk_factors.txt
+  raw_path: C:\Users\ahmet\Documents\PythonProjects\Epilith\data\raw\sec_edgar\NVDA\20261101T193705Z_e4b3889df3886edb_0001045810-26-000075_nvda-20260726.htm
+  raw_hash: e4b3889df3886edb243df887fcc1677263ec800ecbe369fa5f7c8597d1fe5602
+  section_chars: 4852
+  section_full_chars: 34645
+- source_id: nvda-8k-2026-08-26-release
+  kind: ir_release
+  title: NVIDIA Corporation earnings release filed 26 August 2026, period ended 26
+    August 2026
+  url: https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm
+  published: 2026-08-26
+  file: 8k_2026-08-26_release.txt
+  raw_path: C:\Users\ahmet\Documents\PythonProjects\Epilith\data\raw\sec_edgar\NVDA\20261101T194002Z_28efd0e3376762fb_0001045810-26-000073_q2fy27pr.htm
+  raw_hash: 28efd0e3376762fb982d949700d039f7ec4cd54331a8244965a751e9956146ac
+  section_chars: 11540
+  section_full_chars: 23708
