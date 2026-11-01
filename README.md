@@ -22,9 +22,9 @@ Locked rules: Python owns numbers; LLMs do not; every extra component must earn 
 
 ## Current status
 
-A stock is routed by home market before any filing is downloaded. The United States filing cabinet is the home source only for United States stocks. Each market keeps its own accounting rules. The home-market figure is the one kept. The company report confirms it when the same period and the same calculation agree within 1%. A different set of rules is recorded beside it and does not fail the line.
+A stock is routed by home market before any filing is downloaded. The United States filing cabinet is the home source only for United States stocks. Each market keeps its own accounting rules. The regulator's filing is the figure kept and is valid on its own. The company's own release can confirm it, explain a difference, or dispute it; it never decides validity. Each field carries a provenance (authority, company, market) and a confirmation mark, and the report counts confirmed fields separately.
 
-Experiment 0a passes: each company has at least 11 of 12 fields valid.
+Experiment 0a passes: each company has at least 11 of 12 fields valid. The table below is from the run of 31 Oct 2026, under the earlier rule that required a second document; under the current rule NVIDIA scores 12/12 with 7 confirmed.
 
 | Company | Valid fields | What is still open |
 |---|---|---|

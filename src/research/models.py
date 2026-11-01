@@ -63,6 +63,8 @@ class FactLine(BaseModel):
     source_id: str | None = None
     cross_check_source_id: str | None = None
     status: str
+    confirmation: str = "unconfirmed"
+    provenance: str | None = None
 
 
 class FactSheet(BaseModel):
@@ -110,6 +112,8 @@ class FactSheet(BaseModel):
                 source_id=field.source_id,
                 cross_check_source_id=field.cross_check_source_id,
                 status=field.status.value,
+                confirmation=field.confirmation.value,
+                provenance=field.provenance,
             )
             (facts if field.status.value == "valid" else excluded).append(line)
         valuation: dict[str, str] = {}

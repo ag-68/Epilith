@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from research.formatting import METRIC_LABELS, VALUATION_LABELS, fact_value_text, valuation_value_text
+from research.formatting import METRIC_LABELS, VALUATION_LABELS, confirmation_text, fact_value_text, valuation_value_text
 from research.models import EvidenceSet, FactSheet, ModelRun, NumberFinding, RedTeamOutput, SourceBundle, Thesis
 
 
@@ -38,13 +38,13 @@ def render_memo(
         "",
         f"Validated in Experiment 0a ({sheet.report_path}, snapshot `{sheet.data_snapshot_id}`). Figures in {sheet.currency}.",
         "",
-        "| Metric | Value | Period / as-of | Source | Cross-check |",
+        "| Metric | Value | Period / as-of | Source | Second document |",
         "|---|---|---|---|---|",
     ]
     for line in sheet.facts:
         lines.append(
             f"| {METRIC_LABELS.get(line.metric, line.metric)} | {fact_value_text(line)} | {line.period_label or ''} "
-            f"| {line.source_id or ''} | {line.cross_check_source_id or ''} |"
+            f"| {line.source_id or ''} | {confirmation_text(line)} |"
         )
     if sheet.excluded:
         lines += ["", "Not validated, shown for completeness:", ""]

@@ -31,25 +31,27 @@ def render_markdown(report: ExperimentReport) -> str:
         "",
     ]
     for company in report.companies:
-        lines.append(f"## {company.ticker}: {company.valid_count}/12 valid")
+        lines.append(f"## {company.ticker}: {company.valid_count}/12 valid, {company.confirmed_count} confirmed by a second document")
         lines.append("")
         lines.append(
-            "| Metric | Value | Unit | Currency | Period/As-of | Source | Cross-check source | Cross-check value | Difference | Status |"
+            "| Metric | Value | Unit | Currency | Period/As-of | Source | Provenance | Cross-check source | Cross-check value | Difference | Status | Confirmation |"
         )
-        lines.append("|---|---|---|---|---|---|---|---|---|---|")
+        lines.append("|---|---|---|---|---|---|---|---|---|---|---|---|")
         for field in company.fields:
             lines.append(
-                "| {metric} | {value} | {unit} | {currency} | {period} | {source} | {xsrc} | {xval} | {diff} | {status} |".format(
+                "| {metric} | {value} | {unit} | {currency} | {period} | {source} | {prov} | {xsrc} | {xval} | {diff} | {status} | {conf} |".format(
                     metric=field.metric,
                     value=field.value,
                     unit=field.unit,
                     currency=field.currency,
                     period=field.period_label,
                     source=(field.source_id or "")[:12],
+                    prov=field.provenance or "",
                     xsrc=(field.cross_check_source_id or "")[:12],
                     xval=field.cross_check_value,
                     diff=field.difference,
                     status=field.status.value,
+                    conf=field.confirmation.value,
                 )
             )
         lines.append("")

@@ -128,7 +128,23 @@ raw artifact, metadata, retrieved_at, source, content_hash
 
 A field is valid only if: (1) the value was obtained; (2) unit, currency, period/as-of, and listing are known; (3) the source is recorded; (4) it passes validation.
 
-### Mandatory cross-check on 8 fields
+### The home-market filing is the figure kept
+
+The regulator's filing (SEC EDGAR for US stocks, the European filing library, the Taiwan disclosure site) is the
+source of truth. A figure stated there, with unit, currency, period, and provenance, is **valid** on its own.
+A company's own release can **confirm** it, **explain** a difference, or **dispute** it. It never decides validity.
+When the company's release is newer than the filing, the filing is still the figure kept; the newer figure is noted.
+
+Every field records a `provenance` (authority, company, market) and a `confirmation`:
+
+```text
+confirmed    second document states the same figure within tolerance
+explained    second document differs for a documented reason (period, rules, unit, listing, timing)
+disputed     second document differs and nobody has explained why   -> listed in findings, figure still kept
+unconfirmed  no second document states this line
+```
+
+### Cross-check on 8 fields (strengthens, does not qualify)
 
 ```text
 Revenue (TTM), Net income (TTM), Operating cash flow (TTM), Capex (TTM),
@@ -142,8 +158,10 @@ Total debt, Cash, Shares outstanding, Price
 - When the home market publishes a year and not four quarters, that year is the figure kept. A twelve-month total built by canceling the newest half is not used as confirmation.
 - Balance-sheet fields use the newest date that two publishers state. A later date that only one document states is noted and does not replace the confirmed date.
 - The United States filing cabinet is not a second reading for a company whose home market is elsewhere.
-- If no meaningful independent cross-check exists, the field **fails**.
-- Operating income has no mandatory cross-check but still requires primary-source provenance.
+- If no second document exists, the field is **valid but unconfirmed**. The report counts confirmed fields separately
+  so a reader can see how much of the sheet rests on one document.
+- A figure that only the company's release states (the filing did not) is valid, marked `company`, and named in findings.
+- Operating income has no cross-check but still requires primary-source provenance.
 
 ### Discrepancies
 
@@ -153,7 +171,7 @@ Never silently reconcile. Classify every discrepancy as one of:
 currency | unit | period | listing/ADR | accounting-definition | timing | source error | unresolved
 ```
 
-`unresolved` = failure.
+`unresolved` = `disputed` on the field and a line in findings. The home-market figure is still the one kept.
 
 ### Overall
 

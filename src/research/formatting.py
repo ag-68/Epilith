@@ -59,6 +59,22 @@ def fact_value_text(line: FactLine) -> str:
     return human_amount(line.value, line.currency)
 
 
+def confirmation_text(line: FactLine) -> str:
+    """Where the figure comes from and whether a second document agrees, in a few words."""
+    origin = {
+        "authority": "regulator filing",
+        "company": "company release",
+        "market": "market quote",
+    }.get(line.provenance or "", line.provenance or "source unknown")
+    agreement = {
+        "confirmed": "confirmed by a second document",
+        "explained": "second document differs for a documented reason",
+        "disputed": "second document disagrees, unexplained",
+        "unconfirmed": "no second document",
+    }.get(line.confirmation, line.confirmation)
+    return f"{origin}; {agreement}"
+
+
 def valuation_value_text(key: str, raw: str) -> str:
     if key in {"ttm_end_date", "balance_sheet_as_of"}:
         return raw
@@ -79,7 +95,7 @@ def fact_sheet_text(sheet: FactSheet) -> str:
     ]
     for line in sheet.facts:
         label = METRIC_LABELS.get(line.metric, line.metric)
-        lines.append(f"- {label}: {fact_value_text(line)} [{line.period_label or 'n/a'}]")
+        lines.append(f"- {label}: {fact_value_text(line)} [{line.period_label or 'n/a'}; {confirmation_text(line)}]")
     if sheet.excluded:
         lines.append("")
         lines.append("Not validated in 0a (do not rely on these):")
