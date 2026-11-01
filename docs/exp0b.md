@@ -15,10 +15,10 @@ model attacks the thesis before a person reads it?
 10-K / 10-Q / 8-K sections (auto) or hand-picked excerpts ──►  SourceBundle (hashed)
         │
         ▼
-evidence extraction (LLM)  ──►  quote verification (Python)  ──►  EvidenceSet
+evidence extraction (LLM, one call per section)  ──►  quote verification (Python)  ──►  EvidenceSet
         │
         ▼
-analyst (LLM, model A)  ──►  Thesis + structured assumptions
+analyst (LLM, model A; reads facts + verified quotes, not raw sections)  ──►  Thesis + structured assumptions
         │
         ▼
 red team (LLM, model B; gets structure, facts, evidence, sources; not the memo prose)
@@ -38,7 +38,7 @@ Code: `src/llm/` (provider interface, Groq, scripted stand-in, call recorder), `
 | Quotes must exist | `research/evidence.py` checks each `exact_quote` against the stored source bytes after whitespace and quote-mark normalization. Failures are kept, flagged, and excluded from the analyst's input. |
 | Context isolation | `ResearchPipeline.run(sheet, bundle)` has no portfolio parameter. Tests assert the analyst prompt never contains the word. |
 | Red team independence | Different model family by config (`config/llm.yaml`). It receives the structured thesis, not the memo prose. Output is logged, not merged. |
-| Untrusted text | Sources are wrapped in `<<<SOURCE>>>` delimiters and the system prompt says to treat them as data. |
+| Untrusted text | Raw section text reaches only the extraction step, wrapped in `<<<SOURCE>>>` delimiters, one section per call. The analyst and red team see document titles and verified quotes only. |
 | Provenance | Each run writes `fact_sheet.json`, `source_bundle.json`, `evidence.json`, `thesis.json`, `red_team.json`, `memo.md`, `run.json`, and one file per LLM call with request and response hashes, under `data/research/<TICKER>/<run_id>/`. Nothing is overwritten. |
 | Decision log | `data/decision_log/entries/<id>.json` written once. User actions go to `data/decision_log/actions/`, never into the entry. |
 

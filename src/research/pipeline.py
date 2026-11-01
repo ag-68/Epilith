@@ -16,6 +16,7 @@ from llm.schema import strict_schema
 from research.evidence import verify_claims
 from research.memo import render_memo
 from research.models import (
+    ClaimDraft,
     EvidenceDraft,
     EvidenceSet,
     FactSheet,
@@ -87,16 +88,27 @@ class ResearchPipeline:
         self._write(artifact_dir / "fact_sheet.json", sheet)
         self._write(artifact_dir / "source_bundle.json", bundle)
 
-        draft = self._ask(
-            calls,
-            model_runs,
-            purpose="evidence",
-            model=self.config.evidence_model,
-            system=EVIDENCE_SYSTEM,
-            user=evidence_user(bundle),
-            schema=EvidenceDraft,
-        )
-        evidence = verify_claims(draft, bundle)
+        # One extraction call per stored section. Each call carries one section, so a request never has to
+        # hold the whole filing, and the merged claims are then checked against the full bundle.
+        claims: list[ClaimDraft] = []
+        seen: set[tuple[str, str]] = set()
+        for excerpt in bundle.excerpts:
+            single = bundle.model_copy(update={"excerpts": [excerpt]})
+            draft = self._ask(
+                calls,
+                model_runs,
+                purpose="evidence",
+                model=self.config.evidence_model,
+                system=EVIDENCE_SYSTEM,
+                user=evidence_user(single),
+                schema=EvidenceDraft,
+            )
+            for claim in draft.claims:
+                key = (claim.source_id, claim.exact_quote.strip())
+                if key not in seen:
+                    seen.add(key)
+                    claims.append(claim)
+        evidence = verify_claims(EvidenceDraft(claims=claims), bundle)
         self._write(artifact_dir / "evidence.json", evidence)
         if not evidence.verified:
             notes.append("No evidence claim passed quote verification; the thesis rests on facts alone.")

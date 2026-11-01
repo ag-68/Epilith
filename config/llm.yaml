@@ -12,3 +12,7 @@ red_team_model: qwen/qwen3.8-27b
 
 temperature: 0.2
 max_tokens: 8000
+
+# Groq's free tier allows 8,000 tokens per minute per model. Calls wait for room instead of failing.
+# Remove or raise this on a paid tier.
+tokens_per_minute: 8000

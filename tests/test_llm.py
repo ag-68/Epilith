@@ -104,3 +104,42 @@ def test_groq_surfaces_the_providers_own_message_on_refusal():
     provider = GroqProvider(api_key="secret", transport=httpx.MockTransport(handler))
     with pytest.raises(RuntimeError, match="413.*TPM limit 8000"):
         provider.complete(_request("openai/gpt-oss-120b"))
+
+
+def test_token_pacer_waits_until_the_minute_window_has_room():
+    from llm.groq import TokenPacer
+
+    now = [0.0]
+    slept: list[float] = []
+
+    def sleep(seconds: float) -> None:
+        slept.append(seconds)
+        now[0] += seconds
+
+    pacer = TokenPacer(8000, sleep=sleep, clock=lambda: now[0])
+    pacer.wait_for(5000)
+    pacer.record(5000)
+    pacer.wait_for(2000)  # fits: 7000 <= 8000
+    pacer.record(2000)
+    pacer.wait_for(3000)  # 10000 > 8000: must wait for the first call to age out
+    assert slept and now[0] >= 60
+    with pytest.raises(RuntimeError, match="cannot fit"):
+        pacer.wait_for(9000)
+
+
+def test_groq_honours_retry_after_on_429():
+    attempts = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        attempts.append(1)
+        if len(attempts) == 1:
+            return httpx.Response(429, headers={"retry-after": "7"}, json={"error": {"message": "slow down"}})
+        return httpx.Response(
+            200,
+            json={"model": "m", "choices": [{"message": {"content": "{}"}, "finish_reason": "stop"}], "usage": {}},
+        )
+
+    slept: list[float] = []
+    provider = GroqProvider(api_key="secret", transport=httpx.MockTransport(handler), sleep=slept.append)
+    provider.complete(_request("openai/gpt-oss-120b"))
+    assert slept == [7.0]

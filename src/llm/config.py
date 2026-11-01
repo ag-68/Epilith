@@ -18,6 +18,7 @@ class LLMConfig(BaseModel):
     red_team_model: str
     temperature: float = 0.2
     max_tokens: int | None = None
+    tokens_per_minute: int | None = None
 
 
 def load_llm_config(path: Path | None = None) -> LLMConfig:
@@ -28,5 +29,5 @@ def build_provider(config: LLMConfig) -> LLMProvider:
     if config.provider == "groq":
         from llm.groq import GroqProvider
 
-        return GroqProvider(api_key_env=config.api_key_env)
+        return GroqProvider(api_key_env=config.api_key_env, tokens_per_minute=config.tokens_per_minute)
     raise ValueError(f"Unknown LLM provider {config.provider!r}")

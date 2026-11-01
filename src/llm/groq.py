@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import json
 import os
 import time
+from collections import deque
+from collections.abc import Callable
 from datetime import datetime, timezone
 from typing import Any
 
@@ -36,6 +39,9 @@ class GroqProvider:
         timeout: float = 120.0,
         max_attempts: int = 3,
         transport: httpx.BaseTransport | None = None,
+        tokens_per_minute: int | None = None,
+        sleep: Callable[[float], None] = time.sleep,
+        clock: Callable[[], float] = time.monotonic,
     ) -> None:
         self.api_key = (api_key or os.getenv(api_key_env, "")).strip()
         if not self.api_key:
@@ -44,6 +50,8 @@ class GroqProvider:
         self.timeout = timeout
         self.max_attempts = max_attempts
         self._transport = transport
+        self._pacer = TokenPacer(tokens_per_minute, sleep=sleep, clock=clock) if tokens_per_minute else None
+        self._sleep = sleep
 
     def build_body(self, request: LLMRequest) -> dict[str, Any]:
         body: dict[str, Any] = {
@@ -68,13 +76,18 @@ class GroqProvider:
         headers = {"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"}
         requested_at = datetime.now(timezone.utc)
         last_error: Exception | None = None
+        estimate = estimate_tokens(body)
         with httpx.Client(timeout=self.timeout, transport=self._transport) as client:
             for attempt in range(1, self.max_attempts + 1):
+                if self._pacer:
+                    self._pacer.wait_for(estimate)
+                wait = float(2**attempt)
                 try:
                     response = client.post(f"{self.base_url}/chat/completions", json=body, headers=headers)
                 except httpx.TransportError as exc:
                     last_error = exc
                 else:
+                    wait = _retry_after(response, wait)
                     if response.status_code not in RETRY_STATUSES:
                         if response.is_error:
                             # Keep Groq's own message; the bare status code hides the reason (limits, model names).
@@ -82,14 +95,17 @@ class GroqProvider:
                                 f"Groq refused the {request.purpose} call for {request.model} "
                                 f"({response.status_code}): {_error_message(response)}"
                             )
-                        return self._parse(request, response.json(), requested_at)
+                        parsed = self._parse(request, response.json(), requested_at)
+                        if self._pacer:
+                            self._pacer.record((parsed.prompt_tokens or 0) + (parsed.completion_tokens or 0) or estimate)
+                        return parsed
                     last_error = httpx.HTTPStatusError(
-                        f"Groq returned {response.status_code}: {response.text[:300]}",
+                        f"Groq returned {response.status_code}: {_error_message(response)}",
                         request=response.request,
                         response=response,
                     )
                 if attempt < self.max_attempts:
-                    time.sleep(2**attempt)
+                    self._sleep(wait)
         assert last_error is not None
         raise last_error
 
@@ -108,6 +124,56 @@ class GroqProvider:
             received_at=datetime.now(timezone.utc),
             raw=payload,
         )
+
+
+class TokenPacer:
+    """Keeps calls under a tokens-per-minute budget by waiting, not by failing.
+
+    Groq's free tier allows a fixed number of tokens per rolling minute per model. The pacer remembers what
+    each call used and, before the next one, sleeps until the estimated request fits in the window.
+    """
+
+    def __init__(self, tokens_per_minute: int, *, sleep: Callable[[float], None], clock: Callable[[], float]) -> None:
+        self.limit = tokens_per_minute
+        self._sleep = sleep
+        self._clock = clock
+        self._used: deque[tuple[float, int]] = deque()
+
+    def _trim(self, now: float) -> None:
+        while self._used and now - self._used[0][0] >= 60:
+            self._used.popleft()
+
+    def wait_for(self, tokens: int) -> None:
+        if tokens > self.limit:
+            raise RuntimeError(
+                f"A single request of about {tokens} tokens cannot fit a {self.limit} tokens-per-minute budget. "
+                "Shorten the sections or raise the budget."
+            )
+        while True:
+            now = self._clock()
+            self._trim(now)
+            in_window = sum(used for _, used in self._used)
+            if in_window + tokens <= self.limit:
+                return
+            self._sleep(60 - (now - self._used[0][0]) + 0.5)
+
+    def record(self, tokens: int) -> None:
+        self._used.append((self._clock(), tokens))
+
+
+def estimate_tokens(body: dict[str, Any]) -> int:
+    """Rough upper estimate: one token per 3.5 characters of the serialized request."""
+    return int(len(json.dumps(body)) / 3.5) + 1
+
+
+def _retry_after(response: httpx.Response, default: float) -> float:
+    header = response.headers.get("retry-after")
+    if header:
+        try:
+            return max(float(header), 0.5)
+        except ValueError:
+            pass
+    return default
 
 
 def _error_message(response: httpx.Response) -> str:
