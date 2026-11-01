@@ -76,7 +76,12 @@ class GroqProvider:
                     last_error = exc
                 else:
                     if response.status_code not in RETRY_STATUSES:
-                        response.raise_for_status()
+                        if response.is_error:
+                            # Keep Groq's own message; the bare status code hides the reason (limits, model names).
+                            raise RuntimeError(
+                                f"Groq refused the {request.purpose} call for {request.model} "
+                                f"({response.status_code}): {_error_message(response)}"
+                            )
                         return self._parse(request, response.json(), requested_at)
                     last_error = httpx.HTTPStatusError(
                         f"Groq returned {response.status_code}: {response.text[:300]}",
@@ -103,3 +108,10 @@ class GroqProvider:
             received_at=datetime.now(timezone.utc),
             raw=payload,
         )
+
+
+def _error_message(response: httpx.Response) -> str:
+    try:
+        return str(response.json()["error"]["message"])
+    except (ValueError, KeyError, TypeError):
+        return response.text[:500]

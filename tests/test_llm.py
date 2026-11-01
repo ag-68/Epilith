@@ -91,3 +91,16 @@ def test_scripted_provider_replays_by_purpose():
     assert response.content == '{"a": "x"}'
     with pytest.raises(KeyError):
         provider.complete(_request("any").model_copy(update={"purpose": "other"}))
+
+
+def test_groq_surfaces_the_providers_own_message_on_refusal():
+    # Seen live: a 413 whose body explained a tokens-per-minute limit. The status code alone hid it.
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(
+            413,
+            json={"error": {"message": "Request too large for model: TPM limit 8000, requested 14925", "code": "rate_limit_exceeded"}},
+        )
+
+    provider = GroqProvider(api_key="secret", transport=httpx.MockTransport(handler))
+    with pytest.raises(RuntimeError, match="413.*TPM limit 8000"):
+        provider.complete(_request("openai/gpt-oss-120b"))
