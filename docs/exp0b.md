@@ -63,6 +63,15 @@ python experiments\exp0b\run.py --action <ENTRY_ID> watched "reason"
 
 Actions: `bought | skipped | watched`. Each call appends a new record.
 
+Or open the local page and do the same from the browser:
+
+```powershell
+$env:PYTHONPATH = "src"
+python experiments\ui\run.py
+```
+
+http://127.0.0.1:8765 — type a company, watch the log, read the memo, record what you did. Same runner as the command line.
+
 ## 5. What to look at after the first run
 
 - Appendix C: claims that failed the quote check. Many failures mean the extraction prompt or the source formatting needs work.

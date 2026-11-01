@@ -6,3 +6,5 @@ pytest>=8.0
 python-dotenv>=1.0
 truststore>=0.10
 pypdf>=5.0
+fastapi>=0.115
+uvicorn>=0.32

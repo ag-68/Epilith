@@ -11,7 +11,7 @@ Research aid, not financial advice.
 | Phase | Status | What |
 |---|---|---|
 | **0a. Data feasibility** | Passed | 12 facts × NVDA, ASML, TSMC. Provenance, TTM from four quarters, independent cross-checks, discrepancy classification, descriptive valuation panel. |
-| **0b. First research memo** | In progress | Evidence extraction, analyst, red team, immutable decision log. No RAG. Pipeline built; first live run pending. |
+| **0b. First research memo** | In progress | Evidence extraction, analyst, red team, immutable decision log. First live NVIDIA memo written. Local page to look a company up. |
 | **1. Multi-agent ablation** | Later | Keep extra agents only if they improve evaluation. |
 | **2. AI-infra dependency map** | Later | Hand-curated YAML/JSON. LLMs may propose edits, never own the map. |
 | **3. Portfolio context** | Later | IBKR read-only + Nordnet CSV. No auto-sizing. |
@@ -77,6 +77,16 @@ python experiments\exp0b\run.py NVIDIA
 
 The memo and every intermediate artifact land under `data/research/NVDA/<run_id>/`. The decision log entry is written
 under `data/decision_log/`. Record what you did afterwards with `--action <ENTRY_ID> watched "reason"`. Details in `docs/exp0b.md`.
+
+## Open the local page
+
+```powershell
+$env:PYTHONPATH = "src"
+pip install -r requirements.txt
+python experiments\ui\run.py
+```
+
+Then open http://127.0.0.1:8765. Type a company name. Existing memos are listed; you can record watched / skipped / bought there. The page talks to the same runner as the command line and stays on this machine.
 
 ```powershell
 pytest
