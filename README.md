@@ -2,7 +2,7 @@
 
 Recommendation-only investment research for AI infrastructure. It never trades.
 
-Experiment 0a (data feasibility for NVDA, ASML, and TSMC) has passed. The repository is now in **Experiment 0b**: one research memo for one company, built from validated facts and hand-picked source excerpts, with quote checks in Python and an independent red team. See `docs/exp0a.md`, `docs/exp0b.md`, and `docs/roadmap.md`.
+Experiment 0a (data feasibility for NVDA, ASML, and TSMC) has passed. The repository is now in **Experiment 0b**: one research memo for one company, built from validated facts and fixed sections of the company's own filings, with quote checks in Python and an independent red team. See `docs/exp0a.md`, `docs/exp0b.md`, and `docs/roadmap.md`.
 
 Research aid, not financial advice.
 
@@ -67,11 +67,12 @@ The latest passing report is committed, so 0b can run without refetching.
 
 ## Run Experiment 0b (current step)
 
-Add source excerpts under `experiments/exp0b/sources/NVDA/` (see the README there), then:
+Type the company. For a United States filer the data check, the address-book entry and the reading material
+(newest 10-K, 10-Q and earnings release, cut by section heading) are all produced automatically:
 
 ```powershell
 $env:PYTHONPATH = "src"
-python experiments\exp0b\run.py --company NVDA
+python experiments\exp0b\run.py NVIDIA
 ```
 
 The memo and every intermediate artifact land under `data/research/NVDA/<run_id>/`. The decision log entry is written

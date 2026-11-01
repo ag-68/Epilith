@@ -37,6 +37,11 @@ class SnapshotStore:
         relative = Path(origin) / ticker / f"{stamp}_{digest[:16]}_{filename}"
         path = self.raw / relative
         if path.exists():
+            if path.read_bytes() == content:
+                # Same bytes fetched twice within one second: the stored copy already is this snapshot.
+                existing = self.latest_raw(origin, ticker, filename)
+                if existing is not None and existing.content_hash == digest:
+                    return existing
             raise FileExistsError(f"Refusing to overwrite snapshot {path}")
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(content)

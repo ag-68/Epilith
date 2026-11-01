@@ -4,7 +4,7 @@
 
 ## 1. Question
 
-Given validated 0a facts and a handful of hand-picked source excerpts, can a model-written memo be produced where every
+Given validated 0a facts and fixed sections cut from the company's own filings, can a model-written memo be produced where every
 quote is verifiable, every number traces to a stored fact, the analyst never sees the user's portfolio, and a separate
 model attacks the thesis before a person reads it?
 
@@ -12,7 +12,7 @@ model attacks the thesis before a person reads it?
 
 ```text
 0a report + normalized snapshot  ──►  FactSheet (Python)
-sources/<TICKER>/*.txt + sources.yaml ──►  SourceBundle (hashed)
+10-K / 10-Q / 8-K sections (auto) or hand-picked excerpts ──►  SourceBundle (hashed)
         │
         ▼
 evidence extraction (LLM)  ──►  quote verification (Python)  ──►  EvidenceSet
@@ -45,12 +45,14 @@ Code: `src/llm/` (provider interface, Groq, scripted stand-in, call recorder), `
 ## 4. Run
 
 1. Put the key in place. Locally: `GROQ_API_KEY=...` in `.env`. Cloud agents: a Runtime Secret with the same name.
-2. Add excerpts under `experiments/exp0b/sources/NVDA/` and list them in `sources.yaml` (format in `sources/README.md`).
-3. Run:
+2. Run. The reading material is cut from the company's newest 10-K, 10-Q and earnings release automatically
+   (United States filers; see `experiments/exp0b/sources/README.md`). A hand-picked folder under
+   `experiments/exp0b/sources/<TICKER>/` overrides it, and is the only route for non-US companies for now.
+3. Command:
 
 ```powershell
 $env:PYTHONPATH = "src"
-python experiments\exp0b\run.py --company NVDA
+python experiments\exp0b\run.py NVIDIA
 ```
 
 4. Read the memo, then record what you did:
@@ -71,4 +73,5 @@ Actions: `bought | skipped | watched`. Each call appends a new record.
 
 ## 6. Out of scope
 
-No RAG, no retrieval index, no whole filings, no portfolio data, no position sizing, no trading. One company at a time.
+No RAG, no retrieval index, no whole filings (fixed sections only, cut by heading), no portfolio data, no position
+sizing, no trading. One company at a time.
