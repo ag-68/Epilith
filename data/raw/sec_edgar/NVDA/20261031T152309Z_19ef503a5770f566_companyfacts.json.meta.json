@@ -1,0 +1,12 @@
+{
+  "origin": "sec_edgar",
+  "ticker": "NVDA",
+  "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+  "retrieved_at": "2026-10-31T15:23:09.084987+00:00",
+  "content_hash": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+  "byte_length": 4092966,
+  "filename": "companyfacts.json",
+  "kind": "companyfacts",
+  "cik": "0001045810",
+  "seeded_because": "live EDGAR 403 from this network"
+}

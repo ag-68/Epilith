@@ -1,0 +1,333 @@
+{
+  "experiment": "0a",
+  "generated_at": "2026-10-31T15:24:45.268416Z",
+  "companies": [
+    {
+      "ticker": "NVDA",
+      "valid_count": 6,
+      "required_count": 12,
+      "fields": [
+        {
+          "metric": "revenue",
+          "value": "302969000000",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "TTM 2025-07-28 to 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": "a8247969d0f004fe",
+          "cross_check_value": "302948000000.0",
+          "difference": "21000000.0",
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "operating_income",
+          "value": "197579000000",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "TTM 2025-07-28 to 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "net_income",
+          "value": "192879000000",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "TTM 2025-07-28 to 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "failed",
+          "notes": [
+            "Earnings release did not yield an independent figure for this metric."
+          ]
+        },
+        {
+          "metric": "operating_cash_flow",
+          "value": "134360000000",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "TTM 2025-07-28 to 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "failed",
+          "notes": [
+            "Earnings release did not yield an independent figure for this metric."
+          ]
+        },
+        {
+          "metric": "capex",
+          "value": "588000000",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "TTM 2019-04-29 to 2020-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "failed",
+          "notes": [
+            "Earnings release did not yield an independent figure for this metric."
+          ]
+        },
+        {
+          "metric": "total_debt",
+          "value": "33366000000",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "as of 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "failed",
+          "notes": [
+            "No independent IR/press-release figure for this balance-sheet item."
+          ]
+        },
+        {
+          "metric": "cash",
+          "value": "22443000000",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "as of 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "failed",
+          "notes": [
+            "No independent IR/press-release figure for this balance-sheet item."
+          ]
+        },
+        {
+          "metric": "shares_outstanding",
+          "value": "24100000000",
+          "unit": "shares",
+          "currency": null,
+          "period_label": "as of 2026-08-21",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "failed",
+          "notes": [
+            "No independent IR/press-release figure for this balance-sheet item."
+          ]
+        },
+        {
+          "metric": "price",
+          "value": "204.64",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "2026-10-30T00:00:00+00:00",
+          "source_id": "942f66d2cc44975a",
+          "cross_check_source_id": "51e1ee93925572c4",
+          "cross_check_value": "204.63999938964844",
+          "difference": "6.1035156E-7",
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "reporting_currency",
+          "value": "1",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "as of 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "fiscal_period",
+          "value": "739823",
+          "unit": "date_ordinal",
+          "currency": null,
+          "period_label": "as of 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "listing",
+          "value": "1",
+          "unit": "NASDAQ:NVDA",
+          "currency": "USD",
+          "period_label": "as of 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "valid",
+          "notes": []
+        }
+      ],
+      "discrepancies": [
+        {
+          "metric": "revenue",
+          "primary_value": "302969000000",
+          "primary_source_id": "19ef503a5770f566",
+          "cross_check_value": "302948000000.0",
+          "cross_check_source_id": "a8247969d0f004fe",
+          "difference": "21000000.0",
+          "difference_pct": "0.00006931402222669646069399839588",
+          "classification": null,
+          "explanation": null,
+          "passed": true
+        },
+        {
+          "metric": "net_income",
+          "primary_value": "192879000000",
+          "primary_source_id": "19ef503a5770f566",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "Earnings release did not yield an independent figure for this metric.",
+          "passed": false
+        },
+        {
+          "metric": "operating_cash_flow",
+          "primary_value": "134360000000",
+          "primary_source_id": "19ef503a5770f566",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "Earnings release did not yield an independent figure for this metric.",
+          "passed": false
+        },
+        {
+          "metric": "capex",
+          "primary_value": "588000000",
+          "primary_source_id": "19ef503a5770f566",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "Earnings release did not yield an independent figure for this metric.",
+          "passed": false
+        },
+        {
+          "metric": "total_debt",
+          "primary_value": "33366000000",
+          "primary_source_id": "19ef503a5770f566",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "No independent IR/press-release figure for this balance-sheet item.",
+          "passed": false
+        },
+        {
+          "metric": "cash",
+          "primary_value": "22443000000",
+          "primary_source_id": "19ef503a5770f566",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "No independent IR/press-release figure for this balance-sheet item.",
+          "passed": false
+        },
+        {
+          "metric": "shares_outstanding",
+          "primary_value": "24100000000",
+          "primary_source_id": "19ef503a5770f566",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "No independent IR/press-release figure for this balance-sheet item.",
+          "passed": false
+        },
+        {
+          "metric": "price",
+          "primary_value": "204.64",
+          "primary_source_id": "942f66d2cc44975a",
+          "cross_check_value": "204.63999938964844",
+          "cross_check_source_id": "51e1ee93925572c4",
+          "difference": "6.1035156E-7",
+          "difference_pct": "2.982562353401094605160281470E-9",
+          "classification": null,
+          "explanation": null,
+          "passed": true
+        }
+      ],
+      "valuation": {
+        "listing": "NASDAQ:NVDA",
+        "currency": "USD",
+        "market_cap": "4931824000000.00",
+        "enterprise_value": "4942747000000.00",
+        "trailing_pe": "25.56952286148310598872868482",
+        "ev_sales": "16.31436549613986909551802330",
+        "fcf": "133772000000",
+        "fcf_yield": "0.02712424449858713530734267890",
+        "price": "204.64",
+        "shares_outstanding": "24100000000",
+        "total_debt": "33366000000",
+        "cash": "22443000000",
+        "ttm_revenue": "302969000000",
+        "ttm_net_income": "192879000000",
+        "ttm_operating_cash_flow": "134360000000",
+        "ttm_capex": "588000000",
+        "price_as_of": "2026-10-30T00:00:00Z",
+        "ttm_end_date": "2026-07-26",
+        "balance_sheet_as_of": "2026-07-26",
+        "notes": [
+          "Descriptive evidence only. Trailing P/E is misleading for cyclical semiconductor companies.",
+          "No forward P/E, DCF, reverse valuation, or scenario weighting in Experiment 0a.",
+          "FCF = TTM operating cash flow − TTM capex. Provider FCF is not used.",
+          "Market cap mixes price as of 2026-10-30T00:00:00+00:00 with shares as of 2026-08-21."
+        ]
+      },
+      "findings": [
+        "revenue: using us-gaap:Revenues (121 unique periods)",
+        "operating_income: using us-gaap:OperatingIncomeLoss (112 unique periods)",
+        "net_income: using us-gaap:NetIncomeLoss (124 unique periods)",
+        "operating_cash_flow: using us-gaap:NetCashProvidedByUsedInOperatingActivities (76 unique periods)",
+        "capex: using us-gaap:PaymentsToAcquirePropertyPlantAndEquipment (32 unique periods)",
+        "cash: using us-gaap:CashAndCashEquivalentsAtCarryingValue (77 unique periods)",
+        "short_term_investments: using us-gaap:MarketableSecuritiesCurrent (67 unique periods)",
+        "long_term_debt_noncurrent: using us-gaap:LongTermDebtNoncurrent (25 unique periods)",
+        "long_term_debt_current: using us-gaap:LongTermDebtCurrent (21 unique periods)",
+        "long_term_debt_total: using us-gaap:LongTermDebt (50 unique periods)",
+        "operating_lease_liability: using us-gaap:OperatingLeaseLiability (31 unique periods)",
+        "shares_outstanding: using us-gaap:CommonStockSharesOutstanding (18 unique periods)",
+        "shares_outstanding_cover: using dei:EntityCommonStockSharesOutstanding (69 unique periods)",
+        "period-end CommonStockSharesOutstanding is missing or stale versus the latest balance-sheet date; using cover-page DEI shares. as_of is the cover date, not period-end.",
+        "Reported LongTermDebt equals current + noncurrent; using the sum of components",
+        "Operating lease liability 5494000000 excluded from total_debt",
+        "Cash as_of 2026-07-26 does not match short-term investments as_of 2025-10-26",
+        "Live SEC EDGAR fetch failed; using a previously stored companyfacts snapshot. Error: Client error '403 Forbidden' for url 'https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+        "NVDA failed field validity (6/12)"
+      ]
+    }
+  ],
+  "overall_passed": false,
+  "findings": [
+    "Experiment 0a only. No agents, no LLM calls, no portfolio, no screening.",
+    "Raw artifacts stored under C:\\Users\\ahmet\\Documents\\PythonProjects\\Epilith\\data\\raw.",
+    "Full 0a pass requires NVDA, ASML and TSMC. This run is a subset and cannot pass the experiment."
+  ]
+}

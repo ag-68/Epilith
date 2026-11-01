@@ -1,0 +1,12 @@
+{
+  "origin": "sec_edgar",
+  "ticker": "TSMC",
+  "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001046179.json",
+  "retrieved_at": "2026-10-31T15:54:35.354810+00:00",
+  "content_hash": "d3ebb91e3ad78c9482e238c4db36df60b295a3b49ca137774706f4f5e526044a",
+  "byte_length": 911248,
+  "filename": "companyfacts.json",
+  "kind": "companyfacts",
+  "cik": "0001046179",
+  "seeded_because": "live EDGAR 403 from this network"
+}

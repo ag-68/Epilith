@@ -8,12 +8,15 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
+# Raw downloads can be fetched again, except the US filings and the ASML
+# statement. Those sites refused the live download, so the saved copies stay.
 data/raw/**
 !data/raw/.gitkeep
-data/normalized/**
-!data/normalized/.gitkeep
+!data/raw/sec_edgar/
+!data/raw/sec_edgar/**
+!data/raw/company_report/
+!data/raw/company_report/ASML/
+!data/raw/company_report/ASML/**
+
 data/snapshots/**
 !data/snapshots/.gitkeep
-
-experiments/exp0a/output/**
-!experiments/exp0a/output/.gitkeep

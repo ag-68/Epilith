@@ -1,0 +1,82 @@
+{
+  "snapshot_id": "af795241-4761-5f7f-8d0a-93b2acfffb09",
+  "company": {
+    "ticker": "ASML",
+    "name": "ASML Holding N.V.",
+    "cik": "0000937966",
+    "region": "Europe",
+    "accounting": "IFRS",
+    "reporting_currency": "EUR",
+    "listing": "EURONEXT:ASML",
+    "exchange": "Euronext Amsterdam",
+    "valuation_currency": "EUR",
+    "yahoo_symbol": "ASML.AS",
+    "stooq_symbol": "asml.nl",
+    "market_id": "EU",
+    "local_code": "ASML",
+    "ir_release_urls": [
+      "https://www.asml.com/en/news/press-releases/2026/q2-2026-financial-results"
+    ],
+    "enabled_for_exp0a": true
+  },
+  "facts": [],
+  "market": {
+    "fact_id": "c8cbc16e-a0c9-55c5-96d8-ef29dd432ff0",
+    "price": "1412.800048828125",
+    "currency": "EUR",
+    "listing": "EURONEXT:ASML",
+    "as_of_timestamp": "2026-10-30T08:00:00Z",
+    "market_status": "unknown",
+    "source_id": "e1ef86994204ff7e",
+    "retrieved_at": "2026-10-31T16:15:09.765671Z",
+    "content_hash": "efd3d4b3fa3d0a18c2959d3823fa2a4eabb416e4f379a285f614565673a91ec1",
+    "definition": "Last available trade/quote for the local primary listing. The as-of timestamp is required; the price is not called current without it."
+  },
+  "sources": [
+    {
+      "source_id": "5c808d4bae869c32",
+      "origin": "europe_esef",
+      "name": "European electronic filings search",
+      "url": "https://filings.xbrl.org/api/filings",
+      "retrieved_at": "2026-10-31T16:15:09.604165Z",
+      "content_hash": "5c808d4bae869c32ca8c11ea8087391196bb71b4f55da79aff69473b52d2018e",
+      "raw_path": "C:\\Users\\ahmet\\Documents\\PythonProjects\\Epilith\\data\\raw\\europe_esef\\ASML\\20261031T161509Z_5c808d4bae869c32_filings.json",
+      "metadata": {
+        "origin": "europe_esef",
+        "ticker": "ASML",
+        "url": "https://filings.xbrl.org/api/filings",
+        "retrieved_at": "2026-10-31T16:15:09.604165+00:00",
+        "content_hash": "5c808d4bae869c32ca8c11ea8087391196bb71b4f55da79aff69473b52d2018e",
+        "byte_length": 5234,
+        "filename": "filings.json",
+        "query_name": "ASML Holding N.V."
+      }
+    },
+    {
+      "source_id": "e1ef86994204ff7e",
+      "origin": "yahoo_finance",
+      "name": "Yahoo Finance chart",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/ASML.AS",
+      "retrieved_at": "2026-10-31T16:15:09.765671Z",
+      "content_hash": "e1ef86994204ff7e3832d23c909496646457d381f3075bda80813227b28f5fa7",
+      "raw_path": "C:\\Users\\ahmet\\Documents\\PythonProjects\\Epilith\\data\\raw\\yahoo_finance\\ASML\\20261031T161509Z_e1ef86994204ff7e_chart.json",
+      "metadata": {
+        "origin": "yahoo_finance",
+        "ticker": "ASML",
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/ASML.AS",
+        "retrieved_at": "2026-10-31T16:15:09.765671+00:00",
+        "content_hash": "e1ef86994204ff7e3832d23c909496646457d381f3075bda80813227b28f5fa7",
+        "byte_length": 1676,
+        "filename": "chart.json",
+        "symbol": "ASML.AS"
+      }
+    }
+  ],
+  "created_at": "2026-10-31T16:15:09.769695Z",
+  "notes": [
+    "ASML home market is Europe (EURONEXT:ASML). Filings are read with the Europe adapter.",
+    "Home-market source: the public European electronic-report library. The United States filing cabinet was not used.",
+    "European library search for 'ASML Holding N.V.' returned 5 package(s). That library holds electronic yearly reports. It did not return the last four quarters, so sales, profit, cash, debt, and the share count stay empty rather than being copied from the United States filing.",
+    "IR release fetch failed for https://www.asml.com/en/news/press-releases/2026/q2-2026-financial-results: Client error '403 Forbidden' for url 'https://investor.asml.com/news-releases/news-release-details/q2-2026-financial-results'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+  ]
+}

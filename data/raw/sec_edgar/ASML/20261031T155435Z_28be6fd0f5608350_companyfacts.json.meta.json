@@ -1,0 +1,12 @@
+{
+  "origin": "sec_edgar",
+  "ticker": "ASML",
+  "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000937966.json",
+  "retrieved_at": "2026-10-31T15:54:35.350803+00:00",
+  "content_hash": "28be6fd0f5608350ec396ae5d5097e45da95f4f29ad3fbd19aac328a15cce3d4",
+  "byte_length": 1837771,
+  "filename": "companyfacts.json",
+  "kind": "companyfacts",
+  "cik": "0000937966",
+  "seeded_because": "live EDGAR 403 from this network"
+}

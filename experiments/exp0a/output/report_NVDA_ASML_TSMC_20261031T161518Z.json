@@ -1,0 +1,954 @@
+{
+  "experiment": "0a",
+  "generated_at": "2026-10-31T16:15:18.984485Z",
+  "companies": [
+    {
+      "ticker": "NVDA",
+      "valid_count": 11,
+      "required_count": 12,
+      "fields": [
+        {
+          "metric": "revenue",
+          "value": "302969000000",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "TTM 2025-07-28 to 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": "a8247969d0f004fe",
+          "cross_check_value": "302948000000.0",
+          "difference": "21000000.0",
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "operating_income",
+          "value": "197579000000",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "TTM 2025-07-28 to 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "net_income",
+          "value": "192879000000",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "TTM 2025-07-28 to 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": "a8247969d0f004fe",
+          "cross_check_value": "192879000000",
+          "difference": "0",
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "operating_cash_flow",
+          "value": "134360000000",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "TTM 2025-07-28 to 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": "a8247969d0f004fe",
+          "cross_check_value": "134360000000",
+          "difference": "0",
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "capex",
+          "value": "7354000000",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "TTM 2025-07-28 to 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": "a8247969d0f004fe",
+          "cross_check_value": "7354000000",
+          "difference": "0",
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "total_debt",
+          "value": "33366000000",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "as of 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": "a8247969d0f004fe",
+          "cross_check_value": "33366000000",
+          "difference": "0",
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "cash",
+          "value": "22443000000",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "as of 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": "a8247969d0f004fe",
+          "cross_check_value": "22443000000",
+          "difference": "0",
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "shares_outstanding",
+          "value": "24100000000",
+          "unit": "shares",
+          "currency": null,
+          "period_label": "as of 2026-08-21",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "failed",
+          "notes": [
+            "No independent IR/press-release figure for this balance-sheet item."
+          ]
+        },
+        {
+          "metric": "price",
+          "value": "204.64",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "2026-10-30T00:00:00+00:00",
+          "source_id": "942f66d2cc44975a",
+          "cross_check_source_id": "8a5e6bab68fe431f",
+          "cross_check_value": "204.63999938964844",
+          "difference": "6.1035156E-7",
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "reporting_currency",
+          "value": "1",
+          "unit": "USD",
+          "currency": "USD",
+          "period_label": "as of 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "fiscal_period",
+          "value": "739823",
+          "unit": "date_ordinal",
+          "currency": null,
+          "period_label": "as of 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "listing",
+          "value": "1",
+          "unit": "NASDAQ:NVDA",
+          "currency": "USD",
+          "period_label": "as of 2026-07-26",
+          "source_id": "19ef503a5770f566",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "valid",
+          "notes": []
+        }
+      ],
+      "discrepancies": [
+        {
+          "metric": "revenue",
+          "primary_value": "302969000000",
+          "primary_source_id": "19ef503a5770f566",
+          "cross_check_value": "302948000000.0",
+          "cross_check_source_id": "a8247969d0f004fe",
+          "difference": "21000000.0",
+          "difference_pct": "0.00006931402222669646069399839588",
+          "classification": null,
+          "explanation": null,
+          "passed": true
+        },
+        {
+          "metric": "net_income",
+          "primary_value": "192879000000",
+          "primary_source_id": "19ef503a5770f566",
+          "cross_check_value": "192879000000",
+          "cross_check_source_id": "a8247969d0f004fe",
+          "difference": "0",
+          "difference_pct": "0",
+          "classification": null,
+          "explanation": null,
+          "passed": true
+        },
+        {
+          "metric": "operating_cash_flow",
+          "primary_value": "134360000000",
+          "primary_source_id": "19ef503a5770f566",
+          "cross_check_value": "134360000000",
+          "cross_check_source_id": "a8247969d0f004fe",
+          "difference": "0",
+          "difference_pct": "0",
+          "classification": null,
+          "explanation": null,
+          "passed": true
+        },
+        {
+          "metric": "capex",
+          "primary_value": "7354000000",
+          "primary_source_id": "19ef503a5770f566",
+          "cross_check_value": "7354000000",
+          "cross_check_source_id": "a8247969d0f004fe",
+          "difference": "0",
+          "difference_pct": "0",
+          "classification": null,
+          "explanation": null,
+          "passed": true
+        },
+        {
+          "metric": "total_debt",
+          "primary_value": "33366000000",
+          "primary_source_id": "19ef503a5770f566",
+          "cross_check_value": "33366000000",
+          "cross_check_source_id": "a8247969d0f004fe",
+          "difference": "0",
+          "difference_pct": "0",
+          "classification": null,
+          "explanation": null,
+          "passed": true
+        },
+        {
+          "metric": "cash",
+          "primary_value": "22443000000",
+          "primary_source_id": "19ef503a5770f566",
+          "cross_check_value": "22443000000",
+          "cross_check_source_id": "a8247969d0f004fe",
+          "difference": "0",
+          "difference_pct": "0",
+          "classification": null,
+          "explanation": null,
+          "passed": true
+        },
+        {
+          "metric": "shares_outstanding",
+          "primary_value": "24100000000",
+          "primary_source_id": "19ef503a5770f566",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "No independent IR/press-release figure for this balance-sheet item.",
+          "passed": false
+        },
+        {
+          "metric": "price",
+          "primary_value": "204.64",
+          "primary_source_id": "942f66d2cc44975a",
+          "cross_check_value": "204.63999938964844",
+          "cross_check_source_id": "8a5e6bab68fe431f",
+          "difference": "6.1035156E-7",
+          "difference_pct": "2.982562353401094605160281470E-9",
+          "classification": null,
+          "explanation": null,
+          "passed": true
+        }
+      ],
+      "valuation": {
+        "listing": "NASDAQ:NVDA",
+        "currency": "USD",
+        "market_cap": "4931824000000.00",
+        "enterprise_value": "4942747000000.00",
+        "trailing_pe": "25.56952286148310598872868482",
+        "ev_sales": "16.31436549613986909551802330",
+        "fcf": "127006000000",
+        "fcf_yield": "0.02575233828295575835634037224",
+        "price": "204.64",
+        "shares_outstanding": "24100000000",
+        "total_debt": "33366000000",
+        "cash": "22443000000",
+        "ttm_revenue": "302969000000",
+        "ttm_net_income": "192879000000",
+        "ttm_operating_cash_flow": "134360000000",
+        "ttm_capex": "7354000000",
+        "price_as_of": "2026-10-30T00:00:00Z",
+        "ttm_end_date": "2026-07-26",
+        "balance_sheet_as_of": "2026-07-26",
+        "notes": [
+          "Descriptive evidence only. Trailing P/E is misleading for cyclical semiconductor companies.",
+          "No forward P/E, DCF, reverse valuation, or scenario weighting in Experiment 0a.",
+          "FCF = TTM operating cash flow − TTM capex. Provider FCF is not used.",
+          "Market cap mixes price as of 2026-10-30T00:00:00+00:00 with shares as of 2026-08-21."
+        ]
+      },
+      "findings": [
+        "NVDA home market is United States (NASDAQ:NVDA). Filings are read with the United States adapter.",
+        "revenue: using us-gaap:Revenues (121 unique periods)",
+        "operating_income: using us-gaap:OperatingIncomeLoss (112 unique periods)",
+        "net_income: using us-gaap:NetIncomeLoss (124 unique periods)",
+        "operating_cash_flow: using us-gaap:NetCashProvidedByUsedInOperatingActivities (76 unique periods)",
+        "capex: using us-gaap:PaymentsToAcquireProductiveAssets (24 unique periods)",
+        "cash: using us-gaap:CashAndCashEquivalentsAtCarryingValue (77 unique periods)",
+        "short_term_investments: using us-gaap:DebtSecuritiesCurrent (3 unique periods)",
+        "long_term_debt_noncurrent: using us-gaap:LongTermDebtNoncurrent (25 unique periods)",
+        "long_term_debt_current: using us-gaap:LongTermDebtCurrent (21 unique periods)",
+        "long_term_debt_total: using us-gaap:LongTermDebt (50 unique periods)",
+        "operating_lease_liability: using us-gaap:OperatingLeaseLiability (31 unique periods)",
+        "shares_outstanding: using dei:EntityCommonStockSharesOutstanding (69 unique periods)",
+        "shares_outstanding_cover: using dei:EntityCommonStockSharesOutstanding (69 unique periods)",
+        "Reported LongTermDebt equals current + noncurrent; using the sum of components",
+        "Operating lease liability 5494000000 excluded from total_debt",
+        "Live United States filing download failed; using a previously stored snapshot. Error: Client error '403 Forbidden' for url 'https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+      ]
+    },
+    {
+      "ticker": "ASML",
+      "valid_count": 0,
+      "required_count": 12,
+      "fields": [
+        {
+          "metric": "revenue",
+          "value": null,
+          "unit": null,
+          "currency": null,
+          "period_label": null,
+          "source_id": null,
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "missing",
+          "notes": [
+            "not obtained",
+            "Earnings release did not yield an independent figure for this metric."
+          ]
+        },
+        {
+          "metric": "operating_income",
+          "value": null,
+          "unit": null,
+          "currency": null,
+          "period_label": null,
+          "source_id": null,
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "missing",
+          "notes": [
+            "not obtained"
+          ]
+        },
+        {
+          "metric": "net_income",
+          "value": null,
+          "unit": null,
+          "currency": null,
+          "period_label": null,
+          "source_id": null,
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "missing",
+          "notes": [
+            "not obtained",
+            "Earnings release did not yield an independent figure for this metric."
+          ]
+        },
+        {
+          "metric": "operating_cash_flow",
+          "value": null,
+          "unit": null,
+          "currency": null,
+          "period_label": null,
+          "source_id": null,
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "missing",
+          "notes": [
+            "not obtained",
+            "Earnings release did not yield an independent figure for this metric."
+          ]
+        },
+        {
+          "metric": "capex",
+          "value": null,
+          "unit": null,
+          "currency": null,
+          "period_label": null,
+          "source_id": null,
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "missing",
+          "notes": [
+            "not obtained",
+            "Earnings release did not yield an independent figure for this metric."
+          ]
+        },
+        {
+          "metric": "total_debt",
+          "value": null,
+          "unit": null,
+          "currency": null,
+          "period_label": null,
+          "source_id": null,
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "missing",
+          "notes": [
+            "not obtained",
+            "No independent IR/press-release figure for this balance-sheet item."
+          ]
+        },
+        {
+          "metric": "cash",
+          "value": null,
+          "unit": null,
+          "currency": null,
+          "period_label": null,
+          "source_id": null,
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "missing",
+          "notes": [
+            "not obtained",
+            "No independent IR/press-release figure for this balance-sheet item."
+          ]
+        },
+        {
+          "metric": "shares_outstanding",
+          "value": null,
+          "unit": null,
+          "currency": null,
+          "period_label": null,
+          "source_id": null,
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "missing",
+          "notes": [
+            "not obtained",
+            "No independent IR/press-release figure for this balance-sheet item."
+          ]
+        },
+        {
+          "metric": "price",
+          "value": "1412.800048828125",
+          "unit": "EUR",
+          "currency": "EUR",
+          "period_label": "2026-10-30T08:00:00+00:00",
+          "source_id": "e1ef86994204ff7e",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "failed",
+          "notes": [
+            "No second, independent price source for this listing yet. A second copy of the same website does not count."
+          ]
+        },
+        {
+          "metric": "reporting_currency",
+          "value": null,
+          "unit": null,
+          "currency": null,
+          "period_label": null,
+          "source_id": null,
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "missing",
+          "notes": [
+            "not obtained"
+          ]
+        },
+        {
+          "metric": "fiscal_period",
+          "value": null,
+          "unit": null,
+          "currency": null,
+          "period_label": null,
+          "source_id": null,
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "missing",
+          "notes": [
+            "not obtained"
+          ]
+        },
+        {
+          "metric": "listing",
+          "value": null,
+          "unit": null,
+          "currency": null,
+          "period_label": null,
+          "source_id": null,
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "missing",
+          "notes": [
+            "not obtained"
+          ]
+        }
+      ],
+      "discrepancies": [
+        {
+          "metric": "revenue",
+          "primary_value": null,
+          "primary_source_id": "5c808d4bae869c32",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "Earnings release did not yield an independent figure for this metric.",
+          "passed": false
+        },
+        {
+          "metric": "net_income",
+          "primary_value": null,
+          "primary_source_id": "5c808d4bae869c32",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "Earnings release did not yield an independent figure for this metric.",
+          "passed": false
+        },
+        {
+          "metric": "operating_cash_flow",
+          "primary_value": null,
+          "primary_source_id": "5c808d4bae869c32",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "Earnings release did not yield an independent figure for this metric.",
+          "passed": false
+        },
+        {
+          "metric": "capex",
+          "primary_value": null,
+          "primary_source_id": "5c808d4bae869c32",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "Earnings release did not yield an independent figure for this metric.",
+          "passed": false
+        },
+        {
+          "metric": "total_debt",
+          "primary_value": null,
+          "primary_source_id": "5c808d4bae869c32",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "No independent IR/press-release figure for this balance-sheet item.",
+          "passed": false
+        },
+        {
+          "metric": "cash",
+          "primary_value": null,
+          "primary_source_id": "5c808d4bae869c32",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "No independent IR/press-release figure for this balance-sheet item.",
+          "passed": false
+        },
+        {
+          "metric": "shares_outstanding",
+          "primary_value": null,
+          "primary_source_id": "5c808d4bae869c32",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "No independent IR/press-release figure for this balance-sheet item.",
+          "passed": false
+        },
+        {
+          "metric": "price",
+          "primary_value": "1412.800048828125",
+          "primary_source_id": "e1ef86994204ff7e",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "No second, independent price source for this listing yet. A second copy of the same website does not count.",
+          "passed": false
+        }
+      ],
+      "valuation": {
+        "listing": "EURONEXT:ASML",
+        "currency": "EUR",
+        "market_cap": null,
+        "enterprise_value": null,
+        "trailing_pe": null,
+        "ev_sales": null,
+        "fcf": null,
+        "fcf_yield": null,
+        "price": "1412.800048828125",
+        "shares_outstanding": null,
+        "total_debt": null,
+        "cash": null,
+        "ttm_revenue": null,
+        "ttm_net_income": null,
+        "ttm_operating_cash_flow": null,
+        "ttm_capex": null,
+        "price_as_of": "2026-10-30T08:00:00Z",
+        "ttm_end_date": null,
+        "balance_sheet_as_of": null,
+        "notes": [
+          "Descriptive evidence only. Trailing P/E is misleading for cyclical semiconductor companies.",
+          "No forward P/E, DCF, reverse valuation, or scenario weighting in Experiment 0a."
+        ]
+      },
+      "findings": [
+        "ASML home market is Europe (EURONEXT:ASML). Filings are read with the Europe adapter.",
+        "Home-market source: the public European electronic-report library. The United States filing cabinet was not used.",
+        "European library search for 'ASML Holding N.V.' returned 5 package(s). That library holds electronic yearly reports. It did not return the last four quarters, so sales, profit, cash, debt, and the share count stay empty rather than being copied from the United States filing.",
+        "IR release fetch failed for https://www.asml.com/en/news/press-releases/2026/q2-2026-financial-results: Client error '403 Forbidden' for url 'https://investor.asml.com/news-releases/news-release-details/q2-2026-financial-results'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+        "ASML failed field validity (0/12)"
+      ]
+    },
+    {
+      "ticker": "TSMC",
+      "valid_count": 5,
+      "required_count": 12,
+      "fields": [
+        {
+          "metric": "revenue",
+          "value": "4440492429000.0",
+          "unit": "TWD",
+          "currency": "TWD",
+          "period_label": "TTM 2025-07-01 to 2026-06-30",
+          "source_id": "170a13bdc7e9b315",
+          "cross_check_source_id": "39a56bb137561965",
+          "cross_check_value": "2026",
+          "difference": "1270380247974.0",
+          "status": "failed",
+          "notes": [
+            "Latest-quarter XBRL value differs from the earnings release by more than 1%. Quote: Revenue 2026"
+          ]
+        },
+        {
+          "metric": "operating_income",
+          "value": "2491156024000.0",
+          "unit": "TWD",
+          "currency": "TWD",
+          "period_label": "TTM 2025-07-01 to 2026-06-30",
+          "source_id": "f0e27feb8ef8a0f3",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "net_income",
+          "value": "2236752922000.0",
+          "unit": "TWD",
+          "currency": "TWD",
+          "period_label": "TTM 2025-07-01 to 2026-06-30",
+          "source_id": "6efd7856c4ecdee7",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "failed",
+          "notes": [
+            "Earnings release did not yield an independent figure for this metric."
+          ]
+        },
+        {
+          "metric": "operating_cash_flow",
+          "value": "2634679110000.0",
+          "unit": "TWD",
+          "currency": "TWD",
+          "period_label": "TTM 2025-07-01 to 2026-06-30",
+          "source_id": "648090bab9ac3987",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "failed",
+          "notes": [
+            "Earnings release did not yield an independent figure for this metric."
+          ]
+        },
+        {
+          "metric": "capex",
+          "value": null,
+          "unit": null,
+          "currency": null,
+          "period_label": null,
+          "source_id": null,
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "missing",
+          "notes": [
+            "not obtained",
+            "Earnings release did not yield an independent figure for this metric."
+          ]
+        },
+        {
+          "metric": "total_debt",
+          "value": null,
+          "unit": null,
+          "currency": null,
+          "period_label": null,
+          "source_id": null,
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "missing",
+          "notes": [
+            "not obtained",
+            "No independent IR/press-release figure for this balance-sheet item."
+          ]
+        },
+        {
+          "metric": "cash",
+          "value": null,
+          "unit": null,
+          "currency": null,
+          "period_label": null,
+          "source_id": null,
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "missing",
+          "notes": [
+            "not obtained",
+            "No independent IR/press-release figure for this balance-sheet item."
+          ]
+        },
+        {
+          "metric": "shares_outstanding",
+          "value": "25932370067",
+          "unit": "shares",
+          "currency": null,
+          "period_label": "as of 2026-10-30",
+          "source_id": "e54820b990387a78",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "failed",
+          "notes": [
+            "No independent IR/press-release figure for this balance-sheet item."
+          ]
+        },
+        {
+          "metric": "price",
+          "value": "2370.0000",
+          "unit": "TWD",
+          "currency": "TWD",
+          "period_label": "2026-10-31T16:15:14.763244+00:00",
+          "source_id": "1e21675c6fd8c259",
+          "cross_check_source_id": "b66733f1ea388991",
+          "cross_check_value": "2370.0",
+          "difference": "0.0000",
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "reporting_currency",
+          "value": "1",
+          "unit": "TWD",
+          "currency": "TWD",
+          "period_label": "as of 2026-10-30",
+          "source_id": "170a13bdc7e9b315",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "fiscal_period",
+          "value": "739919",
+          "unit": "date_ordinal",
+          "currency": null,
+          "period_label": "as of 2026-10-30",
+          "source_id": "170a13bdc7e9b315",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "valid",
+          "notes": []
+        },
+        {
+          "metric": "listing",
+          "value": "1",
+          "unit": "TWSE:2330",
+          "currency": "TWD",
+          "period_label": "as of 2026-10-30",
+          "source_id": "170a13bdc7e9b315",
+          "cross_check_source_id": null,
+          "cross_check_value": null,
+          "difference": null,
+          "status": "valid",
+          "notes": []
+        }
+      ],
+      "discrepancies": [
+        {
+          "metric": "revenue",
+          "primary_value": "1270380250000.0",
+          "primary_source_id": "170a13bdc7e9b315",
+          "cross_check_value": "2026",
+          "cross_check_source_id": "39a56bb137561965",
+          "difference": "1270380247974.0",
+          "difference_pct": "0.9999999984052019070668014557",
+          "classification": "unresolved",
+          "explanation": "Latest-quarter XBRL value differs from the earnings release by more than 1%. Quote: Revenue 2026",
+          "passed": false
+        },
+        {
+          "metric": "net_income",
+          "primary_value": "2236752922000.0",
+          "primary_source_id": "6efd7856c4ecdee7",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "Earnings release did not yield an independent figure for this metric.",
+          "passed": false
+        },
+        {
+          "metric": "operating_cash_flow",
+          "primary_value": "2634679110000.0",
+          "primary_source_id": "648090bab9ac3987",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "Earnings release did not yield an independent figure for this metric.",
+          "passed": false
+        },
+        {
+          "metric": "capex",
+          "primary_value": null,
+          "primary_source_id": "170a13bdc7e9b315",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "Earnings release did not yield an independent figure for this metric.",
+          "passed": false
+        },
+        {
+          "metric": "total_debt",
+          "primary_value": null,
+          "primary_source_id": "170a13bdc7e9b315",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "No independent IR/press-release figure for this balance-sheet item.",
+          "passed": false
+        },
+        {
+          "metric": "cash",
+          "primary_value": null,
+          "primary_source_id": "170a13bdc7e9b315",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "No independent IR/press-release figure for this balance-sheet item.",
+          "passed": false
+        },
+        {
+          "metric": "shares_outstanding",
+          "primary_value": "25932370067",
+          "primary_source_id": "e54820b990387a78",
+          "cross_check_value": null,
+          "cross_check_source_id": null,
+          "difference": null,
+          "difference_pct": null,
+          "classification": "unresolved",
+          "explanation": "No independent IR/press-release figure for this balance-sheet item.",
+          "passed": false
+        },
+        {
+          "metric": "price",
+          "primary_value": "2370.0000",
+          "primary_source_id": "1e21675c6fd8c259",
+          "cross_check_value": "2370.0",
+          "cross_check_source_id": "b66733f1ea388991",
+          "difference": "0.0000",
+          "difference_pct": "0",
+          "classification": null,
+          "explanation": null,
+          "passed": true
+        }
+      ],
+      "valuation": {
+        "listing": "TWSE:2330",
+        "currency": "TWD",
+        "market_cap": "61459717058790.0000",
+        "enterprise_value": null,
+        "trailing_pe": "27.47720432341520821762002375",
+        "ev_sales": null,
+        "fcf": null,
+        "fcf_yield": null,
+        "price": "2370.0000",
+        "shares_outstanding": "25932370067",
+        "total_debt": null,
+        "cash": null,
+        "ttm_revenue": "4440492429000.0",
+        "ttm_net_income": "2236752922000.0",
+        "ttm_operating_cash_flow": "2634679110000.0",
+        "ttm_capex": null,
+        "price_as_of": "2026-10-31T16:15:14.763244Z",
+        "ttm_end_date": "2026-06-30",
+        "balance_sheet_as_of": null,
+        "notes": [
+          "Descriptive evidence only. Trailing P/E is misleading for cyclical semiconductor companies.",
+          "No forward P/E, DCF, reverse valuation, or scenario weighting in Experiment 0a.",
+          "Market cap mixes price as of 2026-10-31T16:15:14.763244+00:00 with shares as of 2026-10-30."
+        ]
+      },
+      "findings": [
+        "TSMC home market is Taiwan (TWSE:2330). Filings are read with the Taiwan adapter.",
+        "Home-market source: Taiwan public disclosure site and the Taiwan exchange company profile. The United States filing cabinet was not used.",
+        "Taiwan's machine-readable quarterly feed does not split out cash, borrowings, or equipment purchases. Those items stay empty rather than being guessed from a wider cash-flow total.",
+        "TSMC failed field validity (5/12)"
+      ]
+    }
+  ],
+  "overall_passed": false,
+  "findings": [
+    "Experiment 0a only. No agents, no LLM calls, no portfolio, no screening.",
+    "Raw artifacts stored under C:\\Users\\ahmet\\Documents\\PythonProjects\\Epilith\\data\\raw."
+  ]
+}

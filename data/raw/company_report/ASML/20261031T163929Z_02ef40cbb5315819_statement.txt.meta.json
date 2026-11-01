@@ -1,0 +1,11 @@
+{
+  "origin": "company_report",
+  "ticker": "ASML",
+  "url": "https://www.asml.com/en/news/press-releases/2026/q2-2026-financial-results",
+  "retrieved_at": "2026-10-31T16:39:29.776230+00:00",
+  "content_hash": "02ef40cbb5315819e7d1985330ad35a9f276e5dc5d5264d0187abab22f05b692",
+  "byte_length": 25787,
+  "filename": "statement.txt",
+  "saved_copy": true,
+  "note": "Retrieved earlier when a browser-like fetch succeeded. The program client is refused by the company site."
+}
