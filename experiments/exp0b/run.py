@@ -12,6 +12,7 @@ sys.path.insert(0, str(ROOT / "src"))
 load_dotenv(ROOT / ".env")
 
 from data.config import DATA_DIR  # noqa: E402
+from data.registry import CompanyRegistry, _norm  # noqa: E402
 from decision_log.log import DecisionLog  # noqa: E402
 from llm.config import build_provider, load_llm_config  # noqa: E402
 from research.facts import load_fact_sheet  # noqa: E402
@@ -44,8 +45,11 @@ def ensure_fact_sheet(ticker: str):
     return load_fact_sheet(ticker)
 
 
-def run_memo(ticker: str) -> int:
-    ticker = ticker.upper()
+def run_memo(query: str) -> int:
+    company = CompanyRegistry().resolve(query)
+    ticker = company.ticker
+    if _norm(query) != _norm(ticker):
+        print(f"{query} -> {company.name} ({company.listing})")
     sheet = ensure_fact_sheet(ticker)
     bundle = load_source_bundle(SOURCES_DIR / ticker, ticker)
     config = load_llm_config()
@@ -76,7 +80,8 @@ def record_action(entry_id: str, action: str, reason: str, notes: str | None) ->
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Experiment 0b: first research memo")
-    parser.add_argument("--company", default="NVDA", help="Ticker with a passed 0a report and a sources folder")
+    parser.add_argument("company", nargs="?", default=None, help="Company name or ticker, e.g. NVIDIA or NVDA")
+    parser.add_argument("--company", dest="company_flag", default=None, help=argparse.SUPPRESS)
     parser.add_argument(
         "--action",
         nargs=3,
@@ -88,7 +93,10 @@ def main() -> None:
     if args.action:
         entry_id, action, reason = args.action
         sys.exit(record_action(entry_id, action, reason, args.notes))
-    sys.exit(run_memo(args.company))
+    query = args.company or args.company_flag
+    if not query:
+        parser.error("give a company name or ticker, e.g. python experiments/exp0b/run.py NVIDIA")
+    sys.exit(run_memo(query))
 
 
 if __name__ == "__main__":
