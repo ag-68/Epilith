@@ -1,0 +1,4 @@
+# Stored evidence must keep its exact bytes on every machine: the content hash in each .meta.json
+# and in every research run is computed over the file as fetched. No line-ending conversion.
+data/** -text
+experiments/exp0b/sources/** -text
