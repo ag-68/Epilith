@@ -124,11 +124,8 @@ def run(tickers: list[str]) -> ExperimentReport:
     )
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Run Experiment 0a data validation")
-    parser.add_argument("--company", action="append", dest="companies", help="Ticker to run (repeatable)")
-    args = parser.parse_args()
-    tickers = [t.upper() for t in (args.companies or ["NVDA", "ASML", "TSMC"])]
+def run_and_write(tickers: list[str]) -> tuple[ExperimentReport, Path, Path]:
+    """Run the data check and write the JSON and Markdown reports. Used by 0b when a report is missing."""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     report = run(tickers)
     stamp = report.generated_at.strftime("%Y%m%dT%H%M%SZ")
@@ -136,6 +133,15 @@ def main() -> None:
     md_path = OUTPUT_DIR / f"report_{'_'.join(tickers)}_{stamp}.md"
     json_path.write_text(report.model_dump_json(indent=2), encoding="utf-8")
     md_path.write_text(render_markdown(report), encoding="utf-8")
+    return report, json_path, md_path
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Run Experiment 0a data validation")
+    parser.add_argument("--company", action="append", dest="companies", help="Ticker to run (repeatable)")
+    args = parser.parse_args()
+    tickers = [t.upper() for t in (args.companies or ["NVDA", "ASML", "TSMC"])]
+    report, json_path, md_path = run_and_write(tickers)
     print(render_markdown(report))
     print(f"Wrote {json_path}")
     print(f"Wrote {md_path}")

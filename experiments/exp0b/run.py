@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import sys
 from pathlib import Path
 
@@ -22,9 +23,30 @@ RESEARCH_DIR = DATA_DIR / "research"
 DECISION_LOG_DIR = DATA_DIR / "decision_log"
 
 
+def ensure_fact_sheet(ticker: str):
+    """Use the newest data-check report for the ticker. If there is none, run the data check now."""
+    try:
+        return load_fact_sheet(ticker)
+    except FileNotFoundError:
+        print(f"No Experiment 0a report for {ticker}. Running the data check first.")
+    spec = importlib.util.spec_from_file_location("exp0a_run", ROOT / "experiments" / "exp0a" / "run.py")
+    exp0a = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(exp0a)
+    report, json_path, _ = exp0a.run_and_write([ticker])
+    company = report.companies[0]
+    print(f"Data check wrote {json_path}: {company.valid_count}/12 valid.")
+    if not company.passed:
+        raise SystemExit(
+            f"{ticker} failed the data check ({company.valid_count}/12). No memo is written on unvalidated numbers. "
+            f"Read {json_path.with_suffix('.md')} and fix the data layer first."
+        )
+    return load_fact_sheet(ticker)
+
+
 def run_memo(ticker: str) -> int:
     ticker = ticker.upper()
-    sheet = load_fact_sheet(ticker)
+    sheet = ensure_fact_sheet(ticker)
     bundle = load_source_bundle(SOURCES_DIR / ticker, ticker)
     config = load_llm_config()
     provider = build_provider(config)
