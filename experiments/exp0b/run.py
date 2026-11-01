@@ -1,0 +1,73 @@
+from __future__ import annotations
+
+import argparse
+import sys
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src"))
+load_dotenv(ROOT / ".env")
+
+from data.config import DATA_DIR  # noqa: E402
+from decision_log.log import DecisionLog  # noqa: E402
+from llm.config import build_provider, load_llm_config  # noqa: E402
+from research.facts import load_fact_sheet  # noqa: E402
+from research.pipeline import ResearchPipeline  # noqa: E402
+from research.sources import load_source_bundle  # noqa: E402
+
+SOURCES_DIR = ROOT / "experiments" / "exp0b" / "sources"
+RESEARCH_DIR = DATA_DIR / "research"
+DECISION_LOG_DIR = DATA_DIR / "decision_log"
+
+
+def run_memo(ticker: str) -> int:
+    ticker = ticker.upper()
+    sheet = load_fact_sheet(ticker)
+    bundle = load_source_bundle(SOURCES_DIR / ticker, ticker)
+    config = load_llm_config()
+    provider = build_provider(config)
+    pipeline = ResearchPipeline(provider, config, RESEARCH_DIR)
+    result = pipeline.run(sheet, bundle)
+    entry = DecisionLog(DECISION_LOG_DIR).append(result)
+
+    print(result.memo_markdown)
+    print(f"Memo: {Path(result.artifact_dir) / 'memo.md'}")
+    print(f"Decision log entry: {entry.entry_id}")
+    print(f"Verified evidence: {len(result.evidence.verified)}; failed quote check: {len(result.evidence.unverified)}")
+    print(f"Figures not traceable to the fact sheet: {len(result.number_findings)}")
+    for note in result.notes:
+        print(f"Note: {note}")
+    print(
+        "Record what you did with it:\n"
+        f"  python experiments/exp0b/run.py --action {entry.entry_id} watched \"reason\""
+    )
+    return 0
+
+
+def record_action(entry_id: str, action: str, reason: str, notes: str | None) -> int:
+    record = DecisionLog(DECISION_LOG_DIR).record_user_action(entry_id, action, reason, notes)  # type: ignore[arg-type]
+    print(f"Recorded {record.user_action} for {entry_id} at {record.recorded_at.isoformat()}")
+    return 0
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Experiment 0b: first research memo")
+    parser.add_argument("--company", default="NVDA", help="Ticker with a passed 0a report and a sources folder")
+    parser.add_argument(
+        "--action",
+        nargs=3,
+        metavar=("ENTRY_ID", "ACTION", "REASON"),
+        help="Record bought | skipped | watched for a decision log entry instead of writing a memo",
+    )
+    parser.add_argument("--notes", default=None, help="Override notes to store with --action")
+    args = parser.parse_args()
+    if args.action:
+        entry_id, action, reason = args.action
+        sys.exit(record_action(entry_id, action, reason, args.notes))
+    sys.exit(run_memo(args.company))
+
+
+if __name__ == "__main__":
+    main()

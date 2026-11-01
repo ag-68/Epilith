@@ -2,7 +2,7 @@
 
 Recommendation-only investment research for AI infrastructure. It never trades.
 
-This repository is in **Experiment 0a**: prove that a small set of financial and market facts can be fetched, defined, sourced, reproduced, and cross-checked for NVDA, ASML, and TSMC. Agents, memos, and portfolio logic wait until 0a passes. See `docs/exp0a.md` and `docs/roadmap.md`.
+Experiment 0a (data feasibility for NVDA, ASML, and TSMC) has passed. The repository is now in **Experiment 0b**: one research memo for one company, built from validated facts and hand-picked source excerpts, with quote checks in Python and an independent red team. See `docs/exp0a.md`, `docs/exp0b.md`, and `docs/roadmap.md`.
 
 Research aid, not financial advice.
 
@@ -10,8 +10,8 @@ Research aid, not financial advice.
 
 | Phase | Status | What |
 |---|---|---|
-| **0a. Data feasibility** | In progress | 12 facts × NVDA, ASML, TSMC. Provenance, TTM from four quarters, independent cross-checks, discrepancy classification, descriptive valuation panel. |
-| **0b. First research memo** | Blocked on 0a | Evidence extraction, analyst, red team, immutable decision log. No RAG. |
+| **0a. Data feasibility** | Passed | 12 facts × NVDA, ASML, TSMC. Provenance, TTM from four quarters, independent cross-checks, discrepancy classification, descriptive valuation panel. |
+| **0b. First research memo** | In progress | Evidence extraction, analyst, red team, immutable decision log. No RAG. Pipeline built; first live run pending. |
 | **1. Multi-agent ablation** | Later | Keep extra agents only if they improve evaluation. |
 | **2. AI-infra dependency map** | Later | Hand-curated YAML/JSON. LLMs may propose edits, never own the map. |
 | **3. Portfolio context** | Later | IBKR read-only + Nordnet CSV. No auto-sizing. |
@@ -53,15 +53,29 @@ copy .env.example .env
 ```
 
 Set `SEC_USER_AGENT` in `.env` to a string that includes a contact email. SEC EDGAR rejects anonymous clients.
+Set `GROQ_API_KEY` for Experiment 0b. In cloud agents it is a Runtime Secret with the same name.
 
-## Run NVDA (current step)
+## Run Experiment 0a
 
 ```powershell
 $env:PYTHONPATH = "src"
-python experiments\exp0a\run.py --company NVDA
+python experiments\exp0a\run.py
 ```
 
 Reports land in `experiments/exp0a/output/`. Raw fetches are hashed and stored under `data/raw/`; they are never overwritten.
+The latest passing report is committed, so 0b can run without refetching.
+
+## Run Experiment 0b (current step)
+
+Add source excerpts under `experiments/exp0b/sources/NVDA/` (see the README there), then:
+
+```powershell
+$env:PYTHONPATH = "src"
+python experiments\exp0b\run.py --company NVDA
+```
+
+The memo and every intermediate artifact land under `data/research/NVDA/<run_id>/`. The decision log entry is written
+under `data/decision_log/`. Record what you did afterwards with `--action <ENTRY_ID> watched "reason"`. Details in `docs/exp0b.md`.
 
 ```powershell
 pytest

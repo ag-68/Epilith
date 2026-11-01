@@ -1,0 +1,3 @@
+# Fill in before the first NVDA run. See ../README.md for the format.
+# Each entry needs: source_id, kind, title, url, published, file.
+sources: []
